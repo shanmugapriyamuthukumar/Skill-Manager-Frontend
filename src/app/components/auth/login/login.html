@@ -1,0 +1,67 @@
+<div class="login-container">
+
+  <!-- LEFT SIDE -->
+  <div class="login-left">
+
+    <!-- Logo -->
+    <div class="logo">
+      Logo To Be Done
+    </div>
+
+    <!-- Title -->
+    <h2>Login to Your Account</h2>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+      <!-- Email -->
+      <input 
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+      >
+
+      <!-- Password -->
+      <div class="password-field">
+
+        <input
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        >
+
+        <!-- Eye icon -->
+        <i class="fa-solid fa-eye"></i>
+
+      </div>
+
+      <!-- Sign In -->
+      <button type="submit" class="signin-btn">
+        Sign In
+      </button>
+
+    </form>
+
+  </div>
+
+
+  <!-- RIGHT SIDE -->
+  <div class="login-right">
+
+    <h1>New Here?</h1>
+
+    <p>
+      Sign up to continue!!!
+    </p>
+
+    <button
+      type="button"
+      routerLink="/signup"
+      class="signup-btn"
+    >
+      Sign Up
+    </button>
+
+  </div>
+
+</div>
