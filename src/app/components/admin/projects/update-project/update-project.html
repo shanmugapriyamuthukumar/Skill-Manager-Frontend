@@ -1,0 +1,15 @@
+<h2>Update Project</h2>
+
+<form (ngSubmit)="updateProject()">
+
+<input type="number" placeholder="ID" [(ngModel)]="project.id" name="id">
+
+<input type="text" placeholder="Name" [(ngModel)]="project.name" name="name">
+
+<input type="text" placeholder="Domain" [(ngModel)]="project.domain" name="domain">
+
+<input type="text" placeholder="Duration" [(ngModel)]="project.duration" name="duration">
+
+<button type="submit">Update</button>
+
+</form>

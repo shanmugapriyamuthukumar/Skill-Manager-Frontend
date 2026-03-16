@@ -3,22 +3,22 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-selector:'app-update-skill',
+selector:'app-update-project',
 standalone:true,
 imports:[FormsModule],
-templateUrl:'./update-skill.html'
+templateUrl:'./update-project.html'
 })
-export class UpdateSkill{
+export class UpdateProject{
 
-skill:any={};
+project:any={};
 
 constructor(private http:HttpClient){}
 
-updateSkill(){
+updateProject(){
 
-this.http.put("http://localhost:9090/api/skills/"+this.skill.id,this.skill)
+this.http.put("http://localhost:9090/api/projects/"+this.project.id,this.project)
 .subscribe(()=>{
-alert("Skill Updated");
+alert("Project Updated");
 });
 
 }

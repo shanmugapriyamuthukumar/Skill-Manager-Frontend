@@ -1,1 +1,17 @@
-<p>add-skill works!</p>
+<h2>Add Skill</h2>
+
+<form (ngSubmit)="addSkill()">
+
+<label>Skill Name</label>
+<input type="text" [(ngModel)]="skill.name" name="name">
+
+<br><br>
+
+<label>Domain</label>
+<input type="text" [(ngModel)]="skill.domain" name="domain">
+
+<br><br>
+
+<button type="submit">Add Skill</button>
+
+</form>

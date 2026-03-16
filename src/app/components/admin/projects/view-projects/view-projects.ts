@@ -2,21 +2,23 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-selector:'app-skill-list',
+selector:'app-view-projects',
 standalone:true,
-templateUrl:'./skill-list.html'
+templateUrl:'./view-projects.html'
 })
-export class SkillList{
+export class ViewProjects{
 
-skills:any[]=[];
+projects:any[]=[];
 
 constructor(private http:HttpClient){}
 
 ngOnInit(){
-this.http.get("http://localhost:9090/api/skills")
+
+this.http.get("http://localhost:9090/api/projects")
 .subscribe((data:any)=>{
-this.skills=data;
+this.projects=data;
 });
+
 }
 
 }

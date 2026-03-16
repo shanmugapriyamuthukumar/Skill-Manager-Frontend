@@ -1,1 +1,17 @@
-<p>skill-list works!</p>
+<h2>Skills</h2>
+
+<table border="1">
+
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Domain</th>
+</tr>
+
+<tr *ngFor="let skill of skills">
+<td>{{skill.id}}</td>
+<td>{{skill.name}}</td>
+<td>{{skill.domain}}</td>
+</tr>
+
+</table>

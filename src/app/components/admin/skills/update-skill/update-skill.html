@@ -1,1 +1,13 @@
-<p>update-skill works!</p>
+<h2>Update Skill</h2>
+
+<form (ngSubmit)="updateSkill()">
+
+<input type="number" placeholder="ID" [(ngModel)]="skill.id" name="id">
+
+<input type="text" placeholder="Name" [(ngModel)]="skill.name" name="name">
+
+<input type="text" placeholder="Domain" [(ngModel)]="skill.domain" name="domain">
+
+<button type="submit">Update</button>
+
+</form>

@@ -1,1 +1,22 @@
-<p>create-project works!</p>
+<h2>Create Project</h2>
+
+<form (ngSubmit)="createProject()">
+
+<label>Project Name</label>
+<input type="text" [(ngModel)]="project.name" name="name">
+
+<br><br>
+
+<label>Domain</label>
+<input type="text" [(ngModel)]="project.domain" name="domain">
+
+<br><br>
+
+<label>Duration</label>
+<input type="text" [(ngModel)]="project.duration" name="duration">
+
+<br><br>
+
+<button type="submit">Create Project</button>
+
+</form>
