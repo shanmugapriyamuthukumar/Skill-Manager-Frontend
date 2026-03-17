@@ -36,6 +36,14 @@
   margin-top: auto; /* pushes logout to bottom */
 }
 
+.logout a {
+  display: block;
+  padding: 10px 15px;
+  color: white;              /* same as other links */
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .main-content {
   flex: 1;
   padding: 2rem;

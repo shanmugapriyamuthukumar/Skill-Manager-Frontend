@@ -1,23 +1,17 @@
-<div class="add-skill">
-  <h2>Add New Skill</h2>
-  <form [formGroup]="addSkillForm" (ngSubmit)="addSkill()">
-    <div class="form-group">
-      <label for="skillId">Skill</label>
-      <select id="skillId" formControlName="skillId">
-        <option *ngFor="let s of availableSkills" [value]="s.id">{{ s.name }}</option>
-      </select>
-    </div>
+<h2>Add Employee Skill</h2>
+<form [formGroup]="addSkillForm" (ngSubmit)="addSkill()">
+  <label for="skillId">Select Skill</label>
+  <select id="skillId" formControlName="skillId" required>
+    <option *ngFor="let s of availableSkills" [value]="s.id">
+      {{ s.name }} ({{ s.category }})
+    </option>
+  </select>
 
-    <div class="form-group">
-      <label for="proficiencyLevel">Proficiency Level (1–5)</label>
-      <input type="number" id="proficiencyLevel" formControlName="proficiencyLevel" min="1" max="5" />
-    </div>
+  <label for="proficiencyLevel">Proficiency Level (1–5)</label>
+  <input type="number" id="proficiencyLevel" formControlName="proficiencyLevel" min="1" max="5" required />
 
-    <div class="form-group">
-      <label for="yearsOfExperience">Years of Experience</label>
-      <input type="number" id="yearsOfExperience" formControlName="yearsOfExperience" min="0" />
-    </div>
+  <label for="yearsOfExperience">Years of Experience</label>
+  <input type="number" id="yearsOfExperience" formControlName="yearsOfExperience" min="0" required />
 
-    <button type="submit" class="btn-add" [disabled]="addSkillForm.invalid">Add Skill</button>
-  </form>
-</div>
+  <button type="submit" [disabled]="addSkillForm.invalid">Add Skill</button>
+</form>
