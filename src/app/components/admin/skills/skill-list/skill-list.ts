@@ -1,22 +1,32 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { SkillService } from '../../../../services/skill.service';
 
 @Component({
-selector:'app-skill-list',
-standalone:true,
-templateUrl:'./skill-list.html'
+  selector: 'app-skill-list',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './skill-list.html',
+  styleUrls: ['./skill-list.css']
 })
-export class SkillList{
+export class SkillList implements OnInit {
 
-skills:any[]=[];
+  skills: any = [];
 
-constructor(private http:HttpClient){}
+  constructor(private skillService: SkillService) {}
 
-ngOnInit(){
-this.http.get("http://localhost:9090/api/skills")
-.subscribe((data:any)=>{
-this.skills=data;
-});
-}
+  ngOnInit(): void {
+    console.log("Calling API for skills...");
 
+    this.skillService.getSkills().subscribe(
+      (res: any) => {
+        console.log("API Response:", res);
+        this.skills = res;
+      },
+      (err: any) => {
+        console.error("API ERROR:", err);
+      }
+    );
+  }
 }
