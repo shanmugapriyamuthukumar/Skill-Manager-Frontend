@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
 import { SkillService } from '../../../../services/skill.service';
 
 @Component({
@@ -10,12 +9,14 @@ import { SkillService } from '../../../../services/skill.service';
   imports: [CommonModule],
   template: `
     <div class="container mt-4">
+
       <h2>Delete Skill</h2>
 
-      <p>Are you sure you want to delete this skill?</p>
+      <p>Are you sure you want to delete Skill ID: {{ id }}?</p>
 
       <button class="btn btn-danger" (click)="delete()">Delete</button>
       <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+
     </div>
   `
 })

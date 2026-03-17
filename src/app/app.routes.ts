@@ -24,6 +24,7 @@ export const routes: Routes = [
   { path: 'admin/skills', component: SkillList },
 
   { path: 'admin/delete-skill', component: DeleteSkillComponent },
+  { path: 'admin/update-skill', component: UpdateSkillComponent },
 
   {path:'employee/dashboard',component:EmployeeDashboardComponent},
   {path:'employee/skills/add',component:AddEmployeeSkillComponent},

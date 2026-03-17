@@ -1,6 +1,54 @@
-table {
-  background: white;
+/* Container spacing */
+.table-container {
+    margin-top: 30px;
+    padding: 20px;
 }
-h2 {
-  font-weight: bold;
+
+/* Clean table style */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Table header */
+thead {
+    background: #1e88e5;
+    color: white;
+}
+
+thead th {
+    padding: 14px 12px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: left;
+}
+
+/* Table body */
+tbody tr {
+    transition: background-color 0.2s ease-in-out;
+}
+
+tbody tr:nth-child(even) {
+    background: #f5faff;
+}
+
+tbody tr:hover {
+    background: #e8f4ff;
+}
+
+/* Table cells */
+td {
+    padding: 12px;
+    font-size: 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Last row border remove */
+tbody tr:last-child td {
+    border-bottom: none;
 }
