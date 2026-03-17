@@ -3,29 +3,37 @@
   <aside class="sidebar">
     <nav>
       <ul>
-        <li><a (click)="editingSkill=null">Skills</a></li>
-        <li><a>Project Skill-check</a></li>
-        <li><a>Logout</a></li>
+        <li>
+          <span>Skills</span>
+          <ul class="submenu">
+            <li><a routerLink="/employee/skills/add">Add Skill</a></li>
+            <li><a routerLink="/employee/skills/update">Update Skill</a></li>
+          </ul>
+        </li>
+        <li><a routerLink="/projects">Project Skill-check</a></li>
       </ul>
     </nav>
+
+    <div class="logout">
+      <a routerLink="/logout">Logout</a>
+    </div>
   </aside>
 
   <!-- Main Content -->
   <main class="main-content">
     <header class="header">
-  <div class="welcome">
-    <span>Welcome, {{ employeeName }}</span>
-    <span>Emp No: {{ employeeId }}</span>
-  </div>
-</header>
-
+      <div class="welcome">
+        <span>Welcome, {{ employeeName }}</span>
+        <span>Emp No: {{ employeeId }}</span>
+      </div>
+    </header>
 
     <section class="project-info">
       <h3>Project: Mobile Application (235457567)</h3>
     </section>
 
     <section class="skills-section">
-      <h3>Skills</h3>
+      <h3>My Skills</h3>
       <table class="skills-table">
         <thead>
           <tr>
@@ -33,50 +41,17 @@
             <th>Category</th>
             <th>Proficiency</th>
             <th>Experience (Years)</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let skill of employeeSkills">
-            <td>{{ skill.name }}</td>
+            <td>{{ skill.skillName }}</td>
             <td>{{ skill.category }}</td>
             <td>{{ skill.proficiencyLevel }}</td>
             <td>{{ skill.yearsOfExperience }}</td>
-            <td>
-              <button class="btn-edit" (click)="editSkill(skill)">Edit</button>
-              <button class="btn-delete" (click)="deleteSkill(skill.id!)">Delete</button>
-            </td>
           </tr>
         </tbody>
       </table>
-    </section>
-
-    <section class="form-section">
-      <h3 *ngIf="!editingSkill">Add New Skill</h3>
-      <h3 *ngIf="editingSkill">Update Skill</h3>
-
-      <form [formGroup]="skillForm" (ngSubmit)="editingSkill ? updateSkill() : addSkill()">
-        <div class="form-group">
-          <label for="skillId">Skill</label>
-          <select id="skillId" formControlName="skillId">
-            <option *ngFor="let s of availableSkills" [value]="s.id">{{ s.name }}</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="proficiencyLevel">Proficiency Level (1–5)</label>
-          <input type="number" id="proficiencyLevel" formControlName="proficiencyLevel" />
-        </div>
-
-        <div class="form-group">
-          <label for="yearsOfExperience">Years of Experience</label>
-          <input type="number" id="yearsOfExperience" formControlName="yearsOfExperience" />
-        </div>
-
-        <button type="submit" class="btn-add" [disabled]="skillForm.invalid">
-          {{ editingSkill ? 'Update Skill' : 'Add Skill' }}
-        </button>
-      </form>
     </section>
   </main>
 </div>
