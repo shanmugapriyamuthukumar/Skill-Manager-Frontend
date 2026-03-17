@@ -1,26 +1,47 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { SkillService } from '../../../../services/skill.service';
 
 @Component({
-selector:'app-delete-skill',
-standalone:true,
-imports:[FormsModule],
-templateUrl:'./delete-skill.html'
+  selector: 'app-delete-skill',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div class="container mt-4">
+
+      <h2>Delete Skill</h2>
+
+      <p>Are you sure you want to delete Skill ID: {{ id }}?</p>
+
+      <button class="btn btn-danger" (click)="delete()">Delete</button>
+      <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+
+    </div>
+  `
 })
-export class DeleteSkill{
+export class DeleteSkillComponent implements OnInit {
 
-id:number=0;
+  id!: number;
 
-constructor(private http:HttpClient){}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private skillService: SkillService
+  ) {}
 
-deleteSkill(){
+  ngOnInit() {
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+  }
 
-this.http.delete("http://localhost:9090/api/skills/"+this.id)
-.subscribe(()=>{
-alert("Skill Deleted");
-});
+  delete() {
+    this.skillService.deleteSkill(this.id).subscribe(() => {
+      alert("Skill deleted successfully!");
+      this.router.navigate(['/admin/skills']);
+    });
+  }
 
-}
-
+  cancel() {
+    this.router.navigate(['/admin/skills']);
+  }
 }

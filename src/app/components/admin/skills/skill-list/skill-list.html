@@ -1,19 +1,21 @@
-<h1>SKILL LIST LOADED</h1>
+<h2>Skill List</h2>
 
 <table class="table table-bordered mt-4">
   <thead>
     <tr>
       <th>ID</th>
-      <th>Name</th>
       <th>Category</th>
+      <th>Name</th>
     </tr>
   </thead>
 
   <tbody>
     <tr *ngFor="let skill of skills">
       <td>{{ skill.id }}</td>
-      <td>{{ skill.name }}</td>
       <td>{{ skill.category }}</td>
+      <td>{{ skill.name }}</td>
     </tr>
+    
+    
   </tbody>
 </table>
