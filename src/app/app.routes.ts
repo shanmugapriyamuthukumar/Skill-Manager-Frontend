@@ -2,10 +2,9 @@ import { Routes } from '@angular/router';
 
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
-import { UpdateSkillComponent } from './components/admin/skills/update-skill/update-skill.component';
 
 import { SkillList } from './components/admin/skills/skill-list/skill-list';
-import { DeleteSkillComponent } from './components/admin/skills/delete-skill/delete-skill';
+import { DeleteSkillComponent } from './components/admin/skills/delete-skill/delete-skill.component';;
 import { AdminDashboardComponent } from './components/admin/dashboard/admin-dashboard/admin-dashboard';
 import { AddSkillComponent } from './components/admin/skills/add-skill/add-skill.component';
 
@@ -24,7 +23,6 @@ export const routes: Routes = [
   { path: 'admin/skills', component: SkillList },
 
   { path: 'admin/delete-skill', component: DeleteSkillComponent },
-  { path: 'admin/update-skill', component: UpdateSkillComponent },
 
   {path:'employee/dashboard',component:EmployeeDashboardComponent},
   {path:'employee/skills/add',component:AddEmployeeSkillComponent},
