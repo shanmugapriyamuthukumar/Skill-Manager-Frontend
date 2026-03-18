@@ -1,59 +1,84 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule} from '@angular/forms';
-import { Project, ProjectSkill } from '../../../../models/project.model';
-import { ProjectService } from '../../../../services/project.service';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
+interface SkillOption {
+  id: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-create-project',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './create-project.html',
+  styleUrls: ['./create-project.css']
 })
-
-
 export class CreateProjectComponent implements OnInit {
+  projectForm!: FormGroup;
+  availableSkills: SkillOption[] = [];
 
-  project: Project = {
-    projectName: '',
-    requiredSkills: []
-  };
-
-  newSkill: ProjectSkill = {
-    skillName: '',
-    proficiency: ''
-  };
-
-  lastProjectId: number = 0;
-
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private cdRef: ChangeDetectorRef   // ✅ inject ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.projectService.getLastProjectId().subscribe(id => {
-      this.lastProjectId = id + 1; // Auto increment
-      this.project.projectId = this.lastProjectId;
+    this.projectForm = this.fb.group({
+      projectName: ['', Validators.required],
+      requiredSkills: this.fb.array([])
     });
+
+    this.loadSkills();
+    this.addSkill(); // start with one skill row
   }
 
-  addSkill() {
-    if (this.newSkill.skillName && this.newSkill.proficiency) {
-      this.project.requiredSkills.push({ ...this.newSkill });
-      this.newSkill = { skillName: '', proficiency: '' };
-    }
+  get requiredSkills(): FormArray {
+    return this.projectForm.get('requiredSkills') as FormArray;
   }
 
-  removeSkill(index: number) {
-    this.project.requiredSkills.splice(index, 1);
+  addSkill(): void {
+    this.requiredSkills.push(
+      this.fb.group({
+        skillId: [null, Validators.required],
+        requiredLevel: [null, [Validators.required, Validators.min(1), Validators.max(5)]]
+      })
+    );
   }
 
-  submitProject() {
-    this.projectService.createProject(this.project).subscribe({
-      next: response => {
-        alert("Project created successfully!");
+  removeSkill(index: number): void {
+    this.requiredSkills.removeAt(index);
+  }
+
+  loadSkills(): void {
+    const token = localStorage.getItem('jwt');
+    this.http.get<SkillOption[]>('http://localhost:9090/skills', {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: data => {
+        this.availableSkills = data;
+        this.cdRef.detectChanges();   // ✅ force UI refresh after async update
       },
-      error: err => {
-        alert("Error creating project!");
-      }
+      error: err => console.error('Error loading skills:', err)
     });
+  }
+
+  createProject(): void {
+    if (this.projectForm.valid) {
+      const token = localStorage.getItem('jwt');
+      const payload = this.projectForm.value;
+
+      this.http.post('http://localhost:9090/projects/add', payload, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).subscribe({
+        next: () => alert('Project created successfully'),
+        error: (err) => {
+          console.error('Error creating project:', err);
+          alert(err.error?.error || 'Error creating project');
+        }
+      });
+    }
   }
 }
