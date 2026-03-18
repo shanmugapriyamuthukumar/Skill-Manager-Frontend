@@ -1,66 +1,25 @@
-<div class="container">
-  <h2>Create Project</h2>
+<h2>Create Project</h2>
+<form [formGroup]="projectForm" (ngSubmit)="createProject()">
+  <label for="projectName">Project Name</label>
+  <input id="projectName" formControlName="projectName" required />
 
-  <form>
-
-    <!-- Project ID -->
-    <div class="form-group">
-      <label>Project ID</label>
-      <input type="text" class="form-control" [(ngModel)]="project.projectId" name="projectId" readonly>
-    </div>
-
-    <!-- Project Name -->
-    <div class="form-group">
-      <label>Project Name</label>
-      <input type="text" class="form-control" [(ngModel)]="project.projectName" name="projectName" required>
-    </div>
-
-    <hr>
-
-    <!-- Add Skill Section -->
-    <h4>Add Required Skills</h4>
-
-    <div class="form-row">
-      <input type="text" placeholder="Skill Name" class="form-control"
-             [(ngModel)]="newSkill.skillName" name="skillName">
-
-      <select class="form-control"
-              [(ngModel)]="newSkill.proficiency" name="proficiency">
-        <option value="">Select Level</option>
-        <option value="Beginner">Beginner</option>
-        <option value="Intermediate">Intermediate</option>
-        <option value="Expert">Expert</option>
+  <h3>Required Skills</h3>
+  <div formArrayName="requiredSkills">
+    <div *ngFor="let skill of requiredSkills.controls; let i = index" [formGroupName]="i" class="skill-row">
+      <select formControlName="skillId" required>
+        <option *ngFor="let s of availableSkills" [value]="s.id">{{ s.name }}</option>
       </select>
 
-      <button type="button" class="btn btn-success" (click)="addSkill()">Add Skill</button>
+      <input type="number"
+             formControlName="requiredLevel"
+             min="1" max="5"
+             placeholder="Level (1–5)"
+             required />
+
+      <button type="button" (click)="removeSkill(i)" *ngIf="requiredSkills.length > 1">Remove</button>
     </div>
+  </div>
 
-    <br>
-
-    <!-- Display added skills -->
-    <table class="table" *ngIf="project.requiredSkills.length > 0">
-      <thead>
-        <tr>
-          <th>Skill Name</th>
-          <th>Proficiency</th>
-          <th>Remove</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let skill of project.requiredSkills; let i = index">
-          <td>{{ skill.skillName }}</td>
-          <td>{{ skill.proficiency }}</td>
-          <td><button Type="button" class="btn btn-danger" (click)="removeSkill(i)">X</button></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <hr>
-
-    <!-- Submit -->
-    <button type="button" class="btn btn-primary" (click)="submitProject()">Create Project</button>
-
-  </form>
-</div>
-``
+  <button type="button" (click)="addSkill()">+ Add Skill</button>
+  <button type="submit" [disabled]="projectForm.invalid">Create Project</button>
+</form>
