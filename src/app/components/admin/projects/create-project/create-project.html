@@ -1,22 +1,66 @@
-<h2>Create Project</h2>
+<div class="container">
+  <h2>Create Project</h2>
 
-<form (ngSubmit)="createProject()">
+  <form>
 
-<label>Project Name</label>
-<input type="text" [(ngModel)]="project.name" name="name">
+    <!-- Project ID -->
+    <div class="form-group">
+      <label>Project ID</label>
+      <input type="text" class="form-control" [(ngModel)]="project.projectId" name="projectId" readonly>
+    </div>
 
-<br><br>
+    <!-- Project Name -->
+    <div class="form-group">
+      <label>Project Name</label>
+      <input type="text" class="form-control" [(ngModel)]="project.projectName" name="projectName" required>
+    </div>
 
-<label>Domain</label>
-<input type="text" [(ngModel)]="project.domain" name="domain">
+    <hr>
 
-<br><br>
+    <!-- Add Skill Section -->
+    <h4>Add Required Skills</h4>
 
-<label>Duration</label>
-<input type="text" [(ngModel)]="project.duration" name="duration">
+    <div class="form-row">
+      <input type="text" placeholder="Skill Name" class="form-control"
+             [(ngModel)]="newSkill.skillName" name="skillName">
 
-<br><br>
+      <select class="form-control"
+              [(ngModel)]="newSkill.proficiency" name="proficiency">
+        <option value="">Select Level</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Expert">Expert</option>
+      </select>
 
-<button type="submit">Create Project</button>
+      <button type="button" class="btn btn-success" (click)="addSkill()">Add Skill</button>
+    </div>
 
-</form>
+    <br>
+
+    <!-- Display added skills -->
+    <table class="table" *ngIf="project.requiredSkills.length > 0">
+      <thead>
+        <tr>
+          <th>Skill Name</th>
+          <th>Proficiency</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let skill of project.requiredSkills; let i = index">
+          <td>{{ skill.skillName }}</td>
+          <td>{{ skill.proficiency }}</td>
+          <td><button Type="button" class="btn btn-danger" (click)="removeSkill(i)">X</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Submit -->
+    <button type="button" class="btn btn-primary" (click)="submitProject()">Create Project</button>
+
+  </form>
+</div>
+``

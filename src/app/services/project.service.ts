@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../core/api.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Project } from '../models/project.model';
 
 @Injectable({
-  providedIn:'root'
+  providedIn: 'root'
 })
 export class ProjectService {
 
-  constructor(private api:ApiService){}
+  private baseUrl = 'http://localhost:9090/projects';
 
-  getProjects(){
-    return this.api.get("/projects");
+  constructor(private http: HttpClient) {}
+
+  createProject(project: Project): Observable<any> {
+    return this.http.post(`${this.baseUrl}/add`, project);
   }
 
-  createProject(data:any){
-    return this.api.post("/projects",data);
+  getLastProjectId(): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}/last-id`);
   }
-
 }

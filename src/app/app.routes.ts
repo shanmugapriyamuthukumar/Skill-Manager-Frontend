@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 
+import { CreateProjectComponent } from './components/admin/projects/create-project/create-project';
+
 import { SkillList } from './components/admin/skills/skill-list/skill-list';
 import { DeleteSkillComponent } from './components/admin/skills/delete-skill/delete-skill.component';;
 import { AdminDashboardComponent } from './components/admin/dashboard/admin-dashboard/admin-dashboard';
@@ -16,6 +18,7 @@ import { PersonalDetails } from './components/employee/profile/personal-details/
 export const routes: Routes = [
 
   { path: '', component: LoginComponent },
+  { path: 'admin/create-project', component: CreateProjectComponent},
   { path: 'signup', component: SignupComponent },
 
   { path: 'admin/dashboard', component: AdminDashboardComponent },

@@ -1,6 +1,10 @@
+export interface ProjectSkill {
+  skillName: string;
+  proficiency: string;
+}
+
 export interface Project {
-
-  id?: number;
+  projectId?: number;   // auto generated
   projectName: string;
-
+  requiredSkills: ProjectSkill[];
 }
