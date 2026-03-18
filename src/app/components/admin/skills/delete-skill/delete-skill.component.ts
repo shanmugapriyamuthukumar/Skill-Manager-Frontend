@@ -7,7 +7,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-delete-skill',
   standalone: true,
   imports: [FormsModule, HttpClientModule, CommonModule],
-  templateUrl: './delete-skill.html'
+  templateUrl: './delete-skill.html',
+  styleUrls: ['./delete-skill.scss']
 })
 export class DeleteSkillComponent {
 
@@ -24,7 +25,7 @@ export class DeleteSkillComponent {
       },
       error: (err) => {
         console.error(err);
-        alert("Error deleting skill");
+        alert("Skill Doesn't Exist");
       }
     });
   }
