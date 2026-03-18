@@ -4,6 +4,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 
 import { CreateProjectComponent } from './components/admin/projects/create-project/create-project';
+import { DeleteProjectComponent } from './components/admin/projects/delete-project/delete-project';
 
 import { SkillList } from './components/admin/skills/skill-list/skill-list';
 import { DeleteSkillComponent } from './components/admin/skills/delete-skill/delete-skill.component';;
@@ -18,15 +19,15 @@ import { PersonalDetails } from './components/employee/profile/personal-details/
 export const routes: Routes = [
 
   { path: '', component: LoginComponent },
-  { path: 'admin/create-project', component: CreateProjectComponent},
   { path: 'signup', component: SignupComponent },
 
   { path: 'admin/dashboard', component: AdminDashboardComponent },
   { path: 'admin/add-skill', component: AddSkillComponent },
-  
   { path: 'admin/skills', component: SkillList },
-
   { path: 'admin/delete-skill', component: DeleteSkillComponent },
+  
+  { path: 'admin/create-project', component: CreateProjectComponent},
+  { path: 'admin/delete-project', component: DeleteProjectComponent},
 
   {path:'employee/dashboard',component:EmployeeDashboardComponent},
   {path:'employee/skills/add',component:AddEmployeeSkillComponent},

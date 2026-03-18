@@ -22,7 +22,7 @@ export class CreateProjectComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private cdRef: ChangeDetectorRef   // ✅ inject ChangeDetectorRef
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +32,7 @@ export class CreateProjectComponent implements OnInit {
     });
 
     this.loadSkills();
-    this.addSkill(); // start with one skill row
+    this.addSkill();
   }
 
   get requiredSkills(): FormArray {
@@ -59,7 +59,7 @@ export class CreateProjectComponent implements OnInit {
     }).subscribe({
       next: data => {
         this.availableSkills = data;
-        this.cdRef.detectChanges();   // ✅ force UI refresh after async update
+        this.cdRef.detectChanges();
       },
       error: err => console.error('Error loading skills:', err)
     });
@@ -67,6 +67,14 @@ export class CreateProjectComponent implements OnInit {
 
   createProject(): void {
     if (this.projectForm.valid) {
+      const skills = this.requiredSkills.value.map((s: any) => s.skillId);
+      const hasDuplicates = new Set(skills).size !== skills.length;
+
+      if (hasDuplicates) {
+        alert('Duplicate skills are not allowed in a project.');
+        return;
+      }
+
       const token = localStorage.getItem('jwt');
       const payload = this.projectForm.value;
 
