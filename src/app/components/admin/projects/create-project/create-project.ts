@@ -1,20 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule} from '@angular/forms';
-import { Project, ProjectSkill } from '../../../../models/project.model';
-import { ProjectService } from '../../../../services/project.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
+// Your models
+import { Project, ProjectSkill } from '../../../../models/project.model';
+
+// Your service
+import { ProjectService } from '../../../../services/project.service';
 
 @Component({
   selector: 'app-create-project',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './create-project.html',
 })
-
-
 export class CreateProjectComponent implements OnInit {
 
   project: Project = {
+    projectId: 0,
     projectName: '',
     requiredSkills: []
   };
@@ -29,9 +32,14 @@ export class CreateProjectComponent implements OnInit {
   constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
-    this.projectService.getLastProjectId().subscribe(id => {
-      this.lastProjectId = id + 1; // Auto increment
-      this.project.projectId = this.lastProjectId;
+    this.projectService.getLastProjectId().subscribe({
+      next: (id) => {
+        this.lastProjectId = id + 1;      // Auto increment logic
+        this.project.projectId = this.lastProjectId;
+      },
+      error: () => {
+        console.error("Failed to load last project ID");
+      }
     });
   }
 
@@ -48,10 +56,10 @@ export class CreateProjectComponent implements OnInit {
 
   submitProject() {
     this.projectService.createProject(this.project).subscribe({
-      next: response => {
+      next: () => {
         alert("Project created successfully!");
       },
-      error: err => {
+      error: () => {
         alert("Error creating project!");
       }
     });

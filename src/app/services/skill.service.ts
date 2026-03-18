@@ -29,7 +29,7 @@ export class SkillService {
 
   // Delete skill by ID
   deleteSkill(id: number) {
-    return this.http.delete(`http://localhost:8080/skills/delete/${id}`, {
+    return this.http.delete(`http://localhost:9090/skills/delete/${id}`, {
       responseType: 'text'
     });
   }
