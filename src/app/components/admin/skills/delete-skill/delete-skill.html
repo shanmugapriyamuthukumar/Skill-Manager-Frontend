@@ -1,12 +1,18 @@
-<div class="container mt-4" style="max-width: 400px;">
+<div class="container mt-4">
+
   <h2>Delete Skill</h2>
 
-  <div class="form-group mb-3">
+  <div class="form-group">
     <label>Enter Skill ID</label>
-    <input type="number" class="form-control" [(ngModel)]="skillId" placeholder="Skill ID">
+    <input 
+      type="number" 
+      class="form-control" 
+      [(ngModel)]="skillId" 
+      placeholder="Skill ID">
   </div>
 
-  <button class="btn btn-danger w-100" (click)="deleteSkill()">
+  <button class="btn btn-danger mt-3" (click)="deleteSkill()">
     Delete Skill
   </button>
+
 </div>

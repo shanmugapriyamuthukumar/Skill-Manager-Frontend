@@ -1,37 +1,30 @@
 import { Component } from '@angular/core';
-import { SkillService } from '../../../../services/skill.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-delete-skill',
-  imports: [FormsModule],
-  templateUrl: './delete-skill.html',
-  styleUrls: ['./delete-skill.scss']
+  standalone: true,
+  imports: [FormsModule, HttpClientModule, CommonModule],
+  templateUrl: './delete-skill.html'
 })
 export class DeleteSkillComponent {
 
-  skillId!: number;
+  skillId: number = 0;   // <-- THIS FIXES YOUR ERROR
 
-  constructor(private skillService: SkillService) {}
+  constructor(private http: HttpClient) {}
 
   deleteSkill() {
-    if (!this.skillId) {
-      alert("Please enter Skill ID");
-      return;
-    }
-
-    if (!confirm("Are you sure you want to delete this skill?")) {
-      return;
-    }
-
-    this.skillService.deleteSkill(this.skillId).subscribe({
-      next: () => {
-        alert("Skill deleted successfully!");
-        this.skillId = 0;  // Reset input
+    this.http.delete("http://localhost:9090/skills/delete/" + this.skillId,
+      { responseType: 'text' }
+    ).subscribe({
+      next: (resp) => {
+        alert(resp);
       },
       error: (err) => {
         console.error(err);
-        alert("Error deleting skill or skill does not exist.");
+        alert("Error deleting skill");
       }
     });
   }
