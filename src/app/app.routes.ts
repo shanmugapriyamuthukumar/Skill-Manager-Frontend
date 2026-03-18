@@ -5,6 +5,7 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 
 import { CreateProjectComponent } from './components/admin/projects/create-project/create-project';
 import { DeleteProjectComponent } from './components/admin/projects/delete-project/delete-project';
+import { ViewProjects } from './components/admin/projects/view-projects/view-projects';
 
 import { SkillList } from './components/admin/skills/skill-list/skill-list';
 import { DeleteSkillComponent } from './components/admin/skills/delete-skill/delete-skill.component';;
@@ -28,6 +29,8 @@ export const routes: Routes = [
   
   { path: 'admin/create-project', component: CreateProjectComponent},
   { path: 'admin/delete-project', component: DeleteProjectComponent},
+  { path: 'admin/view-projects', component: ViewProjects },
+
 
   {path:'employee/dashboard',component:EmployeeDashboardComponent},
   {path:'employee/skills/add',component:AddEmployeeSkillComponent},

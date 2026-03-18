@@ -1,19 +1,19 @@
-<h2>Projects</h2>
+<div class="container">
+  <h2>Projects</h2>
 
-<table border="1">
+  <table border="1" width="40%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Project Name</th>
+      </tr>
+    </thead>
 
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Domain</th>
-<th>Duration</th>
-</tr>
-
-<tr *ngFor="let project of projects">
-<td>{{project.id}}</td>
-<td>{{project.name}}</td>
-<td>{{project.domain}}</td>
-<td>{{project.duration}}</td>
-</tr>
-
-</table>
+    <tbody>
+      <tr *ngFor="let p of projects">
+        <td>{{ p.id }}</td>
+        <td>{{ p.projectName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
