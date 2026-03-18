@@ -54,7 +54,7 @@ export class CreateProjectComponent implements OnInit {
 
   loadSkills(): void {
     const token = localStorage.getItem('jwt');
-    this.http.get<SkillOption[]>('http://localhost:9090/skills', {
+    this.http.get<SkillOption[]>('http://localhost:9090/skills/all', {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: data => {
