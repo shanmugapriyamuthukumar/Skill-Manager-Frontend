@@ -1,18 +1,22 @@
-<div class="container mt-4">
+<div class="page">
 
-  <h2>Delete Skill</h2>
+  <div class="card">
 
-  <div class="form-group">
-    <label>Enter Skill ID</label>
+    <h2>Delete Skill</h2>
+    <p class="sub-text">Remove a skill using its ID</p>
+
+    <!-- INPUT -->
+    <label>Skill ID</label>
     <input 
       type="number" 
-      class="form-control" 
-      [(ngModel)]="skillId" 
-      placeholder="Skill ID">
-  </div>
+      placeholder="Enter skill ID"
+      [(ngModel)]="skillId">
 
-  <button class="btn btn-danger mt-3" (click)="deleteSkill()">
-    Delete Skill
-  </button>
+    <!-- BUTTON -->
+    <button class="danger-btn" (click)="deleteSkill()">
+      Delete Skill
+    </button>
+
+  </div>
 
 </div>

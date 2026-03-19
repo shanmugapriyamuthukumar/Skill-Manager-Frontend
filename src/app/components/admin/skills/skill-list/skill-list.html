@@ -1,21 +1,38 @@
-<h2>Skill List</h2>
+<div class="page">
 
-<table class="table table-bordered mt-4">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Category</th>
-      <th>Name</th>
-    </tr>
-  </thead>
+  <div class="card">
 
-  <tbody>
-    <tr *ngFor="let skill of skills">
-      <td>{{ skill.id }}</td>
-      <td>{{ skill.category }}</td>
-      <td>{{ skill.name }}</td>
-    </tr>
-    
-    
-  </tbody>
-</table>
+    <h2>Skill List</h2>
+    <p class="sub-text">All available skills</p>
+
+    <!-- TABLE -->
+    <table class="skill-table">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let skill of skills">
+          <td>{{ skill.id }}</td>
+          <td>{{ skill.category || '-' }}</td>
+          <td>{{ skill.name }}</td>
+        </tr>
+
+        <!-- EMPTY -->
+        <tr *ngIf="skills.length === 0">
+          <td colspan="3" class="empty">No skills found</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

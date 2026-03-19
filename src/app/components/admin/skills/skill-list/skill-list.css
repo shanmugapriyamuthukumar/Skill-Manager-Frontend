@@ -1,54 +1,64 @@
-/* Container spacing */
-.table-container {
-    margin-top: 30px;
-    padding: 20px;
+/* PAGE */
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 40px;
+  background: #eef2f7;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* Clean table style */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+/* CARD */
+.card {
+  width: 700px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
 
-/* Table header */
-thead {
-    background: #1e88e5;
-    color: white;
+/* TITLE */
+.card h2 {
+  margin-bottom: 5px;
 }
 
-thead th {
-    padding: 14px 12px;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    text-align: left;
+.sub-text {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
-/* Table body */
-tbody tr {
-    transition: background-color 0.2s ease-in-out;
+/* TABLE */
+.skill-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-tbody tr:nth-child(even) {
-    background: #f5faff;
+/* HEADER */
+.skill-table th {
+  background: #2f6fb2;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
 }
 
-tbody tr:hover {
-    background: #e8f4ff;
+/* ROWS */
+.skill-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
 }
 
-/* Table cells */
-td {
-    padding: 12px;
-    font-size: 14px;
-    border-bottom: 1px solid #e2e8f0;
+/* HOVER */
+.skill-table tbody tr:hover {
+  background: #f5f8fc;
 }
 
-/* Last row border remove */
-tbody tr:last-child td {
-    border-bottom: none;
+/* EMPTY */
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 20px;
 }
