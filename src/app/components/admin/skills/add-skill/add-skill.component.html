@@ -1,25 +1,29 @@
-<div class="container mt-4" style="max-width: 450px;">
-  <h2 class="mb-3">Add Skill</h2>
+<div class="page">
 
-  <div class="form-group mb-3">
+  <div class="card">
+
+    <h2>Add Skill</h2>
+    <p class="sub-text">Add a new skill to the system</p>
+
+    <!-- SKILL NAME -->
     <label>Skill Name</label>
     <input 
       type="text" 
-      class="form-control"
       placeholder="Enter skill name"
       [(ngModel)]="name">
-  </div>
 
-  <div class="form-group mb-3">
+    <!-- CATEGORY -->
     <label>Category (optional)</label>
     <input 
       type="text" 
-      class="form-control"
       placeholder="E.g., Programming, Database..."
       [(ngModel)]="category">
+
+    <!-- BUTTON -->
+    <button class="primary-btn" (click)="submitSkill()">
+      Add Skill
+    </button>
+
   </div>
 
-  <button class="btn btn-primary w-100" (click)="submitSkill()">
-    Add Skill
-  </button>
 </div>
