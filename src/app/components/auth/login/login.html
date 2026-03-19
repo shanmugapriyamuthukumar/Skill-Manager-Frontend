@@ -1,66 +1,71 @@
-<div class="login-container">
+<div class="page">
 
-  <!-- LEFT SIDE -->
-  <div class="login-left">
+  <div class="login-card">
 
-    <!-- Logo -->
-    <div class="logo">
-      Logo To Be Done
-    </div>
+    <h2>Sign in to Skill-Manager</h2>
+    <p class="sub-text">Use your Mphasis Credentials to Continue</p>
 
-    <!-- Title -->
-    <h2>Login to Your Account</h2>
+   
 
-    <!-- Login Form -->
     <form [formGroup]="loginForm" (ngSubmit)="login()">
 
-      <!-- Email -->
-      <input 
+      <!-- EMAIL -->
+      <label>Username</label>
+      <input
         type="email"
-        placeholder="Email"
         formControlName="email"
+        placeholder="Enter your email"
+        [class.error]="email?.touched && email?.invalid"
       >
 
-      <!-- Password -->
+      <div class="error-text" *ngIf="email?.touched && email?.invalid">
+        Enter valid email
+      </div>
+
+      <!-- PASSWORD -->
+      <label>Password</label>
       <div class="password-field">
 
         <input
-          type="password"
-          placeholder="Password"
+          [type]="showPassword ? 'text' : 'password'"
           formControlName="password"
+          placeholder="Enter password"
+          [class.error]="password?.touched && password?.invalid"
         >
 
-        <!-- Eye icon -->
-        <i class="fa-solid fa-eye"></i>
+        <i
+          class="fa-solid"
+          [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+          (click)="togglePassword()"
+        ></i>
 
       </div>
 
-      <!-- Sign In -->
-      <button type="submit" class="signin-btn">
-        Sign In
+      <div class="error-text" *ngIf="password?.touched && password?.invalid">
+        Password is required
+      </div>
+
+      <!-- LOGIN BUTTON -->
+      <button type="submit" class="login-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Login</span>
+        <span *ngIf="isLoading" class="spinner"></span>
       </button>
 
+      <!-- ACTION BUTTONS -->
+      <div class="action-row">
+        <button type="button" routerLink="/signup" class="outline-btn">
+          Register
+        </button>
+
+        
+      </div>
+
+      <!-- FORGOT -->
+      <div class="forgot">
+        Forgot password?
+      </div>
+
     </form>
-
-  </div>
-
-
-  <!-- RIGHT SIDE -->
-  <div class="login-right">
-
-    <h1>New Here?</h1>
-
-    <p>
-      Sign up to continue!!!
-    </p>
-
-    <button
-      type="button"
-      routerLink="/signup"
-      class="signup-btn"
-    >
-      Sign Up
-    </button>
 
   </div>
 
