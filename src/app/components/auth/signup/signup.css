@@ -1,55 +1,109 @@
-.signup-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+/* PAGE CENTER */
+.page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eef2f7;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* CARD */
+.signup-card {
+  width: 400px;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
 }
 
-.signup-title {
-  text-align: center;
-  margin-bottom: 1.5rem;
+/* FORM STRUCTURE */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* ✅ equal spacing */
 }
 
-.form-group {
-  margin-bottom: 1rem;
-}
-
+/* LABEL */
 label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 3px;
 }
 
+/* INPUT (ALL SAME ALIGNMENT) */
 input {
   width: 100%;
-  padding: 0.5rem;
+  height: 45px;
+  padding: 0 15px;
+  border-radius: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
 }
 
-.btn {
+/* FOCUS EFFECT */
+input:focus {
+  border-color: #2f6fb2;
+}
+
+/* PASSWORD FIELD */
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* PASSWORD INPUT */
+.password-field input {
+  padding-right: 40px; /* space for icon */
+}
+
+/* ICON CENTER PERFECT */
+.password-field i {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #777;
+  font-size: 16px;
+}
+
+/* ERROR STYLE */
+.error {
+  border: 1px solid red;
+  background: #fff5f5;
+}
+
+/* ERROR TEXT */
+.error-text {
+  font-size: 12px;
+  color: red;
+  margin-top: -5px;
+}
+
+/* BUTTON */
+.signup-btn {
   width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
+  height: 45px;
+  margin-top: 10px;
+  background: #2f6fb2;
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
-.btn-primary {
-  background-color: #007bff;
-  color: #fff;
+/* LOGIN LINK */
+.login-redirect {
+  text-align: center;
+  margin-top: 10px;
 }
 
 .btn-link {
-  color: #007bff;
+  color: #2f6fb2;
   text-decoration: none;
-}
-
-.login-redirect {
-  text-align: center;
-  margin-top: 1rem;
 }
