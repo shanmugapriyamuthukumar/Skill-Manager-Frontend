@@ -1,33 +1,87 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { SkillService } from '../../../../services/skill.service';
+
+interface Skill {
+  id: number;
+  name: string;
+  category: string;
+}
 
 @Component({
   selector: 'app-skill-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [FormsModule, HttpClientModule, CommonModule],
   templateUrl: './skill-list.html',
   styleUrls: ['./skill-list.css']
 })
 export class SkillList implements OnInit {
+  skills: Skill[] = [];
 
-  skills: any = [];
+  // form inputs
+  newSkillName: string = '';
+  newSkillCategory: string = '';
 
-  constructor(private skillService: SkillService, private cd: ChangeDetectorRef) {}
+  constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    console.log("Calling API for skills...");
+    this.loadSkills();
+  }
 
-    this.skillService.getSkills().subscribe(
-      (res: any) => {
-        console.log("API Response:", res);
-        this.skills = res;
-		this.cd.detectChanges();
+  loadSkills(): void {
+    const token = localStorage.getItem('jwt');
+    this.http.get<Skill[]>('http://localhost:9090/skills/all', {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: data => {
+        this.skills = data;
+        this.cd.detectChanges();
       },
-      (err: any) => {
-        console.error("API ERROR:", err);
+      error: err => console.error('Error loading skills:', err)
+    });
+  }
+
+  addSkill(): void {
+    if (!this.newSkillName || !this.newSkillCategory) {
+      alert('Please enter both name and category');
+      return;
+    }
+
+    const token = localStorage.getItem('jwt');
+    const payload = { name: this.newSkillName, category: this.newSkillCategory };
+
+    this.http.post('http://localhost:9090/skills/add', payload, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'text'
+    }).subscribe({
+      next: (resp) => {
+        alert(resp);
+        this.newSkillName = '';
+        this.newSkillCategory = '';
+        this.loadSkills(); // refresh list
+      },
+      error: (err) => {
+        console.error(err);
+        alert(err.error?.error || 'Error adding skill');
       }
-    );
+    });
+  }
+
+  deleteSkill(id: number): void {
+    const token = localStorage.getItem('jwt');
+    this.http.delete(`http://localhost:9090/skills/delete/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'text'
+    }).subscribe({
+      next: (resp) => {
+        alert(resp);
+        this.loadSkills(); // refresh list
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Skill Doesn't Exist");
+      }
+    });
   }
 }

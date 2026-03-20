@@ -1,38 +1,32 @@
-<div class="page">
+<div class="container">
+  <h2>Skills</h2>
 
-  <div class="card">
-
-    <h2>Skill List</h2>
-    <p class="sub-text">All available skills</p>
-
-    <!-- TABLE -->
-    <table class="skill-table">
-
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Category</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-
-      <tbody>
-
-        <tr *ngFor="let skill of skills">
-          <td>{{ skill.id }}</td>
-          <td>{{ skill.category || '-' }}</td>
-          <td>{{ skill.name }}</td>
-        </tr>
-
-        <!-- EMPTY -->
-        <tr *ngIf="skills.length === 0">
-          <td colspan="3" class="empty">No skills found</td>
-        </tr>
-
-      </tbody>
-
-    </table>
-
+  <!-- Add Skill Form -->
+  <div class="add-skill-form">
+    <input type="text" [(ngModel)]="newSkillName" placeholder="Skill Name">
+    <input type="text" [(ngModel)]="newSkillCategory" placeholder="Category">
+    <button (click)="addSkill()">Add Skill</button>
   </div>
 
+  <!-- Skills Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Skill Name</th>
+        <th>Category</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let skill of skills">
+        <td>{{ skill.id }}</td>
+        <td>{{ skill.name }}</td>
+        <td>{{ skill.category }}</td>
+        <td>
+          <button (click)="deleteSkill(skill.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

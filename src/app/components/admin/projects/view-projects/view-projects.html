@@ -1,19 +1,64 @@
-<div class="container">
-  <h2>Projects</h2>
+<div class="page">
+  <div class="card">
+    <h2>Projects</h2>
+    <p class="sub-text">Add new projects or manage existing ones.</p>
 
-  <table border="1" width="40%">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Project Name</th>
-      </tr>
-    </thead>
+    <!-- Add Project Form -->
+    <div class="add-project-form">
+      <input type="text" [(ngModel)]="newProjectName" placeholder="Project Name">
 
-    <tbody>
-      <tr *ngFor="let p of projects">
-        <td>{{ p.id }}</td>
-        <td>{{ p.projectName }}</td>
-      </tr>
-    </tbody>
-  </table>
+      <!-- Skill dropdown -->
+      <select [(ngModel)]="selectedSkillId">
+        <option value="0">-- Select Skill --</option>
+        <option *ngFor="let skill of skills" [value]="skill.id">
+          {{ skill.name }} ({{ skill.category }})
+        </option>
+      </select>
+      <input type="number" [(ngModel)]="requiredLevel" placeholder="Proficiency Level">
+      <button (click)="addSkillToProject()">Add Required Skill</button>
+
+      <button (click)="addProject()">Add Project</button>
+    </div>
+
+    <!-- Show required skills before submit -->
+    <div *ngIf="newRequiredSkills.length > 0">
+      <h4>Required Skills for New Project:</h4>
+      <ul>
+        <li *ngFor="let rs of newRequiredSkills">
+          {{ getSkillName(rs.skillId) }} - Level {{ rs.requiredLevel }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Projects Table -->
+    <table class="project-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Project Name</th>
+          <th>Required Skills</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of projects">
+          <td>{{ project.id }}</td>
+          <td>{{ project.projectName }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let rs of project.requiredSkills">
+                {{ getSkillName(rs.skillId) }} - Level {{ rs.requiredLevel }}
+              </li>
+            </ul>
+          </td>
+          <td>
+            <button class="delete-btn" (click)="deleteProject(project.id)">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="projects.length === 0">
+          <td colspan="4" class="empty">No projects available</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

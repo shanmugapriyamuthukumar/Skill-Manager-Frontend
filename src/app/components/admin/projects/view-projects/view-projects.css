@@ -1,30 +1,44 @@
-/* PAGE CONTAINER */
-.container {
-  max-width: 800px;
-  margin: 40px auto;
+/* PAGE */
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 40px;
+  background: #eef2f7;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* CARD */
+.card {
+  width: 900px;
   background: #fff;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-  font-family: 'Poppins', sans-serif;
 }
 
 /* TITLE */
-.container h2 {
-  margin-bottom: 15px;
-  font-size: 22px;
-  color: #333;
+.card h2 {
+  margin-bottom: 5px;
 }
 
-/* ADD SKILL FORM */
-.add-skill-form {
+.sub-text {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* ADD PROJECT FORM */
+.add-project-form {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
-.add-skill-form input {
+.add-project-form input,
+.add-project-form select {
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
@@ -32,7 +46,7 @@
   font-size: 14px;
 }
 
-.add-skill-form button {
+.add-project-form button {
   background: #2f6fb2;
   color: white;
   border: none;
@@ -43,17 +57,17 @@
   transition: background 0.2s ease;
 }
 
-.add-skill-form button:hover {
+.add-project-form button:hover {
   background: #255a8f;
 }
 
-/* SKILLS TABLE */
-table {
+/* PROJECTS TABLE */
+.project-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-table th {
+.project-table th {
   background: #2f6fb2;
   color: white;
   padding: 12px;
@@ -61,19 +75,20 @@ table th {
   font-size: 14px;
 }
 
-table td {
+.project-table td {
   padding: 12px;
   border-bottom: 1px solid #eee;
   font-size: 14px;
+  vertical-align: top;
 }
 
-/* HOVER EFFECT */
-table tbody tr:hover {
+/* HOVER */
+.project-table tbody tr:hover {
   background: #f5f8fc;
 }
 
 /* DELETE BUTTON */
-table button {
+.delete-btn {
   background: #e74c3c;
   color: white;
   border: none;
@@ -84,6 +99,13 @@ table button {
   transition: background 0.2s ease;
 }
 
-table button:hover {
+.delete-btn:hover {
   background: #c0392b;
+}
+
+/* EMPTY STATE */
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 20px;
 }
