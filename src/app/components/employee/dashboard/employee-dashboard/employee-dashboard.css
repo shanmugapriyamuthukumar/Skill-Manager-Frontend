@@ -1,131 +1,197 @@
-/* Layout */
-.dashboard-layout {
+/* Dashboard Layout */
+.dashboard {
   display: flex;
   height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f5f7fb;
-}
-.sidebar{
-width:240px;
-background:#ffffff;
-border-right:1px solid #e0e0e0;
-padding:25px;
-}
- 
-.logo{
-color:#3a7afe;
-margin-bottom:30px;
-font-weight:600;
-}
- 
-.menu-title{
-margin-top:20px;
-margin-bottom:8px;
-font-size:13px;
-color:#8a8a8a;
-text-transform:uppercase;
-}
- 
-.sidebar a{
-display:block;
-padding:10px 12px;
-text-decoration:none;
-color:#333;
-border-radius:6px;
-font-size:14px;
-margin-bottom:5px;
-transition:0.2s;
-}
- 
-.sidebar a:hover{
-background:#eef4ff;
-color:#3a7afe;
-}
- 
-
-/* Submenu */
-.submenu {
-  margin-left: 10px;
-  margin-top: 5px;
+  background: #f5f7fb;
+  font-family: 'Poppins', sans-serif;
 }
 
-.submenu li {
-  margin-bottom: 5px;
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes logout to bottom */
 }
 
-/* Logout */
-.logout a {
-  color: #d32f2f;
+.logo {
+  color: #3a7afe;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.menu {
+  flex-grow: 1;
+}
+
+.menu-title {
+  display: block;
+  padding: 10px 12px;
   text-decoration: none;
-  font-weight: 500;
+  color: #333;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 5px;
+  transition: 0.2s;
+  cursor: pointer;
 }
 
-/* Main Content */
-.main-content {
+.menu-title:hover {
+  background: #eef4ff;
+  color: #3a7afe;
+}
+
+/* Logout section */
+.logout {
+  margin-top: auto;
+}
+
+.logout a {
+  display: block;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: #e74c3c;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.logout a:hover {
+  background: #fdecea;
+  color: #c0392b;
+}
+
+/* Content */
+.content {
   flex: 1;
   padding: 30px;
 }
 
 /* Header */
 .header {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
-.welcome span {
-  display: block;
-  font-size: 16px;
+.header h1 {
+  font-size: 24px;
   color: #333;
 }
 
-/* Project Section */
-.project-info {
-  margin-bottom: 20px;
+.header p {
+  color: #777;
+  font-size: 14px;
 }
 
-.project-info h3 {
-  font-weight: 600;
-  color: #444;
-}
-
-/* Skills Section (Card Style) */
-.skills-section {
-  background: #ffffff;
+/* Main Content */
+.main-content {
+  background: white;
+  padding: 25px;
   border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  min-height: 400px;
 }
 
-.skills-section h3 {
-  margin-bottom: 15px;
-  color: #333;
+/* Add Skill Form */
+.add-skill-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
-/* Table */
-.skills-table {
+.add-skill-form input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.add-skill-form button {
+  background: #2f6fb2;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.add-skill-form button:hover {
+  background: #255a8f;
+}
+
+/* Skills Table */
+.skill-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.logo{
-color:#3a7afe;
-margin-bottom:30px;
-font-weight:600;
-}
- 
-.skills-table th {
+.skill-table th {
+  background: #2f6fb2;
+  color: white;
+  padding: 12px;
   text-align: left;
-  padding: 12px;
-  background-color: #f1f3f6;
-  font-weight: 600;
   font-size: 14px;
 }
 
-.skills-table td {
+.skill-table td {
   padding: 12px;
-  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
   font-size: 14px;
 }
 
-.skills-table tr:hover {
-  background-color: #f9fbff;
+.skill-table tbody tr:hover {
+  background: #f5f8fc;
+}
+
+/* Buttons */
+.update-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s ease;
+  margin-right: 5px;
+}
+
+.update-btn:hover {
+  background: #1e874b;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+
+/* Empty State */
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+.add-skill-form select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
 }

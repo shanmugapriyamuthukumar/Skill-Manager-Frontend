@@ -13,9 +13,7 @@ import { AdminDashboardComponent } from './components/admin/dashboard/admin-dash
 import { AddSkillComponent } from './components/admin/skills/add-skill/add-skill.component';
 
 import { EmployeeDashboardComponent } from './components/employee/dashboard/employee-dashboard/employee-dashboard';
-import { AddEmployeeSkillComponent } from './components/employee/skills/add-employee-skill/add-employee-skill';
-import { UpdateEmployeeSkillComponent } from './components/employee/skills/update-employee-skill/update-employee-skill';
-import { PersonalDetails } from './components/employee/profile/personal-details/personal-details';
+import { SkillCheckComponent } from './components/employee/skills/skill-check/skill-check';
 
 export const routes: Routes = [
 
@@ -33,8 +31,6 @@ export const routes: Routes = [
 
 
   {path:'employee/dashboard',component:EmployeeDashboardComponent},
-  {path:'employee/skills/add',component:AddEmployeeSkillComponent},
-  {path:'employee/skills/update',component:UpdateEmployeeSkillComponent},
-  {path:'employee/profile',component:PersonalDetails}
+  {path:'employee/skills',component:SkillCheckComponent},
 
 ];

@@ -1,56 +1,75 @@
-<div class="dashboard-layout">
+<div class="dashboard">
+
   <!-- Sidebar -->
-  
-  <aside class="sidebar">
-  <h2 class="logo">Skill Manager</h2>
-    
-          <span>Skills</span>
-          
-            <a routerLink="/employee/skills/add">Add Skill</a>
-            <a routerLink="/employee/skills/update">Update Skill</a>
-          
-        
-        <span routerLink="/projects">Project Skill-check</span>
-      
+  <div class="sidebar">
+    <h2 class="logo">Skill Manager</h2>
+
+    <div class="menu">
+      <p class="menu-title">Skills</p>
+      <a routerLink="/employee/skills" class="menu-title">Skill Check</a>
+    </div>
 
     <div class="logout">
-      <p><a routerLink="/">Logout</a></p>
+      <a routerLink="/" class="menu-title">Logout</a>
     </div>
-  </aside>
+  </div>
 
   <!-- Main Content -->
-  <main class="main-content">
-    <header class="header">
-      <div class="welcome">
-        <span>Welcome, {{ employeeName }}</span>
-        <span>Emp No: {{ employeeId }}</span>
-      </div>
-    </header>
+  <div class="content">
+    <div class="header">
+      <h1>My Skills</h1>
+      <p>Welcome, {{ employeeName }} <br> Emp No: {{ employeeId }}</p>
+    </div>
 
-    <section class="project-info">
-      <h3>Project: Mobile Application (235457567)</h3>
-    </section>
+    <div class="main-content">
 
-    <section class="skills-section">
-      <h3>My Skills</h3>
-      <table class="skills-table">
+      <!-- Add Skill Form -->
+<div class="add-skill-form">
+  <!-- Dropdown showing skill name + category -->
+  <select [(ngModel)]="selectedSkillId">
+    <option value="0">-- Select Skill --</option>
+    <option *ngFor="let skill of skills" [value]="skill.id">
+      {{ skill.name }} ({{ skill.category }})
+    </option>
+  </select>
+
+  <input type="number" [(ngModel)]="newProficiency" placeholder="Proficiency Level" min="1" max="5">
+  <input type="number" [(ngModel)]="newExperience" placeholder="Experience (Years)" min="0">
+  <button (click)="addSkill()">Add Skill</button>
+</div>
+
+
+      <!-- Skills Table -->
+      <table class="skill-table">
         <thead>
           <tr>
             <th>Skill</th>
             <th>Category</th>
             <th>Proficiency</th>
             <th>Experience (Years)</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let skill of employeeSkills">
             <td>{{ skill.skillName }}</td>
             <td>{{ skill.category }}</td>
-            <td>{{ skill.proficiencyLevel }}</td>
-            <td>{{ skill.yearsOfExperience }}</td>
+            <td>
+              <input type="number" [(ngModel)]="skill.proficiencyLevel" min="1" max="5">
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="skill.yearsOfExperience" min="0">
+            </td>
+            <td>
+              <button class="update-btn" (click)="updateSkill(skill)">Update</button>
+              <button class="delete-btn" (click)="deleteSkill(skill.id)">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="employeeSkills.length === 0">
+            <td colspan="5" class="empty">No skills available</td>
           </tr>
         </tbody>
       </table>
-    </section>
-  </main>
+    </div>
+  </div>
 </div>

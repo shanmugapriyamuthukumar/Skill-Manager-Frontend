@@ -1,0 +1,78 @@
+<div class="page">
+  <div class="card">
+    <h2>Project Skill Check</h2>
+    <p class="sub-text">Compare your skills with project requirements</p>
+
+    <table class="project-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Project Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let project of projects">
+          <!-- Project row -->
+          <tr>
+            <td>{{ project.id }}</td>
+            <td>{{ project.projectName }}</td>
+            <td>
+              <button class="check-btn" (click)="checkProject(project)">Check</button>
+            </td>
+          </tr>
+
+          <!-- Expanded row -->
+          <tr *ngIf="expandedProjectId === project.id">
+            <td colspan="3">
+              <div class="skill-check-grid">
+                
+                <!-- Missing Skills -->
+                <div>
+                  <h4>Missing Skills</h4>
+                  <ul>
+                    <li *ngFor="let s of missingSkills">
+                      <span class="badge badge-missing">{{ s.skillName }}</span>
+                      – Required Level {{ s.requiredLevel }}
+                    </li>
+                    <li *ngIf="missingSkills.length === 0" class="empty">None</li>
+                  </ul>
+                </div>
+
+                <!-- Apt Skills -->
+                <div>
+                  <h4>Apt Skills</h4>
+                  <ul>
+                    <li *ngFor="let a of aptSkills">
+                      <span class="badge badge-apt">{{ a.skillName }}</span>
+                      – Current {{ a.current }}, Required {{ a.requiredLevel }}
+                    </li>
+                    <li *ngIf="aptSkills.length === 0" class="empty">None</li>
+                  </ul>
+                </div>
+
+                <!-- Skills with Gap -->
+                <div>
+                  <h4>Skills with Gap</h4>
+                  <ul>
+                    <li *ngFor="let g of gapSkills">
+                      <span class="badge badge-gap">{{ g.skillName }}</span>
+                      – Current {{ g.current }}, Required {{ g.requiredLevel }}, Gap {{ g.gap }}
+                    </li>
+                    <li *ngIf="gapSkills.length === 0" class="empty">None</li>
+                  </ul>
+                </div>
+
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- Empty state -->
+        <tr *ngIf="projects.length === 0">
+          <td colspan="3" class="empty">No projects available</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
