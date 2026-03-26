@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../../../services/toast.service';
 
 interface Skill {
   id: number;
@@ -23,7 +24,11 @@ export class SkillList implements OnInit {
   newSkillName: string = '';
   newSkillCategory: string = '';
 
-  constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
+  constructor(
+    private http: HttpClient,
+    private cd: ChangeDetectorRef,
+    public toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.loadSkills();
@@ -38,13 +43,16 @@ export class SkillList implements OnInit {
         this.skills = data;
         this.cd.detectChanges();
       },
-      error: err => console.error('Error loading skills:', err)
+      error: err => {
+        console.error('Error loading skills:', err);
+        this.toastService.show('Error loading skills', 'error');
+      }
     });
   }
 
   addSkill(): void {
     if (!this.newSkillName || !this.newSkillCategory) {
-      alert('Please enter both name and category');
+      this.toastService.show('Please enter both name and category', 'error');
       return;
     }
 
@@ -56,14 +64,14 @@ export class SkillList implements OnInit {
       responseType: 'text'
     }).subscribe({
       next: (resp) => {
-        alert(resp);
+        this.toastService.show('Skill added successfully', 'success');
         this.newSkillName = '';
         this.newSkillCategory = '';
         this.loadSkills(); // refresh list
       },
       error: (err) => {
         console.error(err);
-        alert(err.error?.error || 'Error adding skill');
+        this.toastService.show(err.error?.error || 'Error adding skill', 'error');
       }
     });
   }
@@ -75,12 +83,12 @@ export class SkillList implements OnInit {
       responseType: 'text'
     }).subscribe({
       next: (resp) => {
-        alert(resp);
+        this.toastService.show('Skill deleted successfully', 'success');
         this.loadSkills(); // refresh list
       },
       error: (err) => {
         console.error(err);
-        alert("Skill Doesn't Exist");
+        this.toastService.show("Skill doesn't exist", 'error');
       }
     });
   }

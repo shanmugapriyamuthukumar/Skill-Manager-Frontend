@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../../../services/toast.service'; // adjust path if needed
 
 interface RequiredSkill {
   skillId: number;
@@ -40,14 +41,18 @@ export class ViewProjects implements OnInit {
   // form inputs
   newProjectName: string = '';
   selectedSkillId: number = 0;
-  requiredLevel: number |null = null;
+  requiredLevel: number | null = null;
   newRequiredSkills: RequiredSkill[] = [];
 
   // qualified employees
   qualifiedEmployees: Employee[] = [];
   selectedProjectId: number | null = null;
 
-  constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
+  constructor(
+    private http: HttpClient,
+    private cd: ChangeDetectorRef,
+    public toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.loadProjects();
@@ -63,7 +68,10 @@ export class ViewProjects implements OnInit {
         this.projects = data;
         this.cd.detectChanges();
       },
-      error: err => console.error('Error loading projects:', err)
+      error: err => {
+        console.error('Error loading projects:', err);
+        this.toastService.show('Error loading projects', 'error');
+      }
     });
   }
 
@@ -76,26 +84,39 @@ export class ViewProjects implements OnInit {
         this.skills = data;
         this.cd.detectChanges();
       },
-      error: err => console.error('Error loading skills:', err)
+      error: err => {
+        console.error('Error loading skills:', err);
+        this.toastService.show('Error loading skills', 'error');
+      }
     });
   }
 
   addSkillToProject(): void {
     if (!this.selectedSkillId || !this.requiredLevel) {
-      alert('Please select a skill and level');
+      this.toastService.show('Please select a skill and level', 'error');
       return;
     }
+
+    // ✅ Validate proficiency range
+    if (this.requiredLevel < 1 || this.requiredLevel > 5) {
+      this.toastService.show('Proficiency must be between 1 and 5', 'error');
+      return;
+    }
+
     this.newRequiredSkills.push({
       skillId: this.selectedSkillId,
       requiredLevel: this.requiredLevel
     });
+
     this.selectedSkillId = 0;
     this.requiredLevel = 1;
+    this.toastService.show('Skill added to project requirements', 'success');
   }
+
 
   addProject(): void {
     if (!this.newProjectName || this.newRequiredSkills.length === 0) {
-      alert('Please enter project name and at least one required skill');
+      this.toastService.show('Please enter project name and at least one required skill', 'error');
       return;
     }
 
@@ -109,15 +130,15 @@ export class ViewProjects implements OnInit {
       headers: { Authorization: `Bearer ${token}` },
       responseType: 'text'
     }).subscribe({
-      next: (resp) => {
-        alert(resp);
+      next: () => {
+        this.toastService.show('Project added successfully', 'success');
         this.newProjectName = '';
         this.newRequiredSkills = [];
         this.loadProjects(); // refresh list
       },
       error: (err) => {
         console.error(err);
-        alert(err.error?.error || 'Error adding project');
+        this.toastService.show(err.error?.error || 'Error adding project', 'error');
       }
     });
   }
@@ -128,13 +149,13 @@ export class ViewProjects implements OnInit {
       headers: { Authorization: `Bearer ${token}` },
       responseType: 'text'
     }).subscribe({
-      next: (resp) => {
-        alert(resp);
+      next: () => {
+        this.toastService.show('Project deleted successfully', 'success');
         this.loadProjects(); // refresh list
       },
       error: (err) => {
         console.error(err);
-        alert("Project Doesn't Exist");
+        this.toastService.show("Project doesn't exist", 'error');
       }
     });
   }
@@ -155,8 +176,12 @@ export class ViewProjects implements OnInit {
         this.selectedProjectId = id;
         this.qualifiedEmployees = data;
         this.cd.detectChanges();
+        this.toastService.show('Qualified employees loaded', 'success');
       },
-      error: err => console.error('Error checking project:', err)
+      error: err => {
+        console.error('Error checking project:', err);
+        this.toastService.show('Error checking project', 'error');
+      }
     });
   }
 }

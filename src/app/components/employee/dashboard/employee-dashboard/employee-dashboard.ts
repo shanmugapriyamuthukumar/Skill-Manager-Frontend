@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';  // ✅ OnInit imported
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';   // ✅ Needed for ngModel
+import { FormsModule } from '@angular/forms';
+import { ToastService } from '../../../../services/toast.service'; // adjust path if needed
 
 interface Skill {
   id: number;
@@ -37,7 +38,11 @@ export class EmployeeDashboardComponent implements OnInit {
   newProficiency: number | null = null;
   newExperience: number | null = null;
 
-  constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
+  constructor(
+    private http: HttpClient,
+    private cd: ChangeDetectorRef,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.loadCurrentUser();
@@ -51,10 +56,16 @@ export class EmployeeDashboardComponent implements OnInit {
 
     this.http.get<any>('http://localhost:9090/employee/me', {
       headers: { Authorization: `Bearer ${token}` }
-    }).subscribe(user => {
-      this.employeeName = user.name;
-      this.employeeId = user.id;
-      this.cd.detectChanges();
+    }).subscribe({
+      next: user => {
+        this.employeeName = user.name;
+        this.employeeId = user.id;
+        this.cd.detectChanges();
+      },
+      error: err => {
+        console.error(err);
+        this.toastService.show('Error loading employee info', 'error');
+      }
     });
   }
 
@@ -62,9 +73,15 @@ export class EmployeeDashboardComponent implements OnInit {
     const token = localStorage.getItem('jwt');
     this.http.get<EmployeeSkill[]>('http://localhost:9090/employee/skills', {
       headers: { Authorization: `Bearer ${token}` }
-    }).subscribe(data => {
-      this.employeeSkills = data;
-      this.cd.detectChanges();
+    }).subscribe({
+      next: data => {
+        this.employeeSkills = data;
+        this.cd.detectChanges();
+      },
+      error: err => {
+        console.error(err);
+        this.toastService.show('Error loading employee skills', 'error');
+      }
     });
   }
 
@@ -72,15 +89,21 @@ export class EmployeeDashboardComponent implements OnInit {
     const token = localStorage.getItem('jwt');
     this.http.get<Skill[]>('http://localhost:9090/skills/all', {
       headers: { Authorization: `Bearer ${token}` }
-    }).subscribe(data => {
-      this.skills = data;
-      this.cd.detectChanges();
+    }).subscribe({
+      next: data => {
+        this.skills = data;
+        this.cd.detectChanges();
+      },
+      error: err => {
+        console.error(err);
+        this.toastService.show('Error loading skills list', 'error');
+      }
     });
   }
 
   addSkill(): void {
     if (!this.selectedSkillId) {
-      alert("Please select a skill");
+      this.toastService.show('Please select a skill', 'error');
       return;
     }
 
@@ -95,8 +118,8 @@ export class EmployeeDashboardComponent implements OnInit {
       headers: { Authorization: `Bearer ${token}` },
       responseType: 'text'
     }).subscribe({
-      next: (resp) => {
-        alert(resp);
+      next: () => {
+        this.toastService.show('Skill added successfully', 'success');
         this.selectedSkillId = 0;
         this.newProficiency = 1;
         this.newExperience = 0;
@@ -104,7 +127,7 @@ export class EmployeeDashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        alert("Error adding skill");
+        this.toastService.show('Error adding skill', 'error');
       }
     });
   }
@@ -115,13 +138,13 @@ export class EmployeeDashboardComponent implements OnInit {
       headers: { Authorization: `Bearer ${token}` },
       responseType: 'text'
     }).subscribe({
-      next: (resp) => {
-        alert(resp);
+      next: () => {
+        this.toastService.show('Skill updated successfully', 'success');
         this.loadEmployeeSkills();
       },
       error: (err) => {
         console.error(err);
-        alert("Error updating skill");
+        this.toastService.show('Error updating skill', 'error');
       }
     });
   }
@@ -132,13 +155,13 @@ export class EmployeeDashboardComponent implements OnInit {
       headers: { Authorization: `Bearer ${token}` },
       responseType: 'text'
     }).subscribe({
-      next: (resp) => {
-        alert(resp);
+      next: () => {
+        this.toastService.show('Skill deleted successfully', 'success');
         this.loadEmployeeSkills();
       },
       error: (err) => {
         console.error(err);
-        alert("Skill couldn't be deleted");
+        this.toastService.show("Skill couldn't be deleted", 'error');
       }
     });
   }

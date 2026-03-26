@@ -14,7 +14,7 @@
           {{ skill.name }} ({{ skill.category }})
         </option>
       </select>
-      <input type="number" [(ngModel)]="requiredLevel" placeholder="Proficiency Level">
+      <input type="number" [(ngModel)]="requiredLevel" placeholder="Proficiency Level" min="1" max="5">
       <button (click)="addSkillToProject()">Add Required Skill</button>
 
       <!-- ✅ Add Project button disabled until at least one skill is added -->

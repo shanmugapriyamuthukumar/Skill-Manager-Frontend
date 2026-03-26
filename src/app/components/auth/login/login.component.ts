@@ -4,6 +4,7 @@ import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../core/api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../../services/toast.service'; 
 
 @Component({
   selector: 'app-login',
@@ -16,19 +17,18 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  // ✅ EXISTING FEATURES
   showPassword: boolean = false;
   isLoading: boolean = false;
   isDarkMode: boolean = false;
 
-  // ✅ NEW: Logout Message
   showLogoutMessage: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
     private router: Router,
-    private route: ActivatedRoute   // ✅ ADDED
+    private route: ActivatedRoute,
+    public toastService: ToastService  
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -36,13 +36,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // ✅ INIT (CHECK LOGOUT PARAM)
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params['logout'] === 'true') {
         this.showLogoutMessage = true;
-
-        // auto hide after 3 sec
+        this.toastService.show('You have been logged out successfully', 'success'); 
         setTimeout(() => {
           this.showLogoutMessage = false;
         }, 3000);
@@ -50,44 +48,35 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // ✅ GETTERS
-  get email() {
-    return this.loginForm.get('email');
-  }
+  get email() { return this.loginForm.get('email'); }
+  get password() { return this.loginForm.get('password'); }
 
-  get password() {
-    return this.loginForm.get('password');
-  }
-
-  // ✅ PASSWORD TOGGLE
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
-  // ✅ DARK MODE
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
     document.body.classList.toggle('dark-mode');
   }
 
-  // ✅ LOGIN FUNCTION (UNCHANGED + LOADER)
   login() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
+      this.toastService.show('Please enter valid email and password', 'error'); 
       return;
     }
 
     const { email, password } = this.loginForm.value;
-
     this.isLoading = true;
 
     this.api.post('/auth/login', { email, password })
       .subscribe({
         next: (res: any) => {
-
           this.isLoading = false;
-
           localStorage.setItem('jwt', res.token);
+
+          this.toastService.show('Login successful!', 'success'); 
 
           if (res.role === 'ADMIN') {
             this.router.navigate(['/admin/dashboard']);
@@ -96,11 +85,9 @@ export class LoginComponent implements OnInit {
           }
         },
         error: (err) => {
-
           this.isLoading = false;
-
           console.error('Login failed:', err);
-          alert('Login failed. Please check your credentials.');
+          this.toastService.show('Login failed. Please check your credentials.', 'error'); 
         }
       });
   }
