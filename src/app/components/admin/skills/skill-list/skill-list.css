@@ -24,12 +24,15 @@
   flex-wrap: wrap;
 }
 
-.add-skill-form input {
+.add-skill-form input,
+.add-skill-form select {   /* ✅ make select look like input */
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 14px;
+  background: #fff;
+  appearance: none;        /* removes default arrow styling */
 }
 
 .add-skill-form button {

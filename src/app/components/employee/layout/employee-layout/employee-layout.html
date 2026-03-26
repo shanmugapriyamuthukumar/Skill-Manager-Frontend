@@ -1,0 +1,18 @@
+<div class="dashboard">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2 class="logo">Skill Manager</h2>
+    <div class="menu">
+      <p class="menu-title" routerLink="/employee/skills">My Skills</p>
+      <p class="menu-title" routerLink="/employee/skill-check">Skill Check</p>
+    </div>
+    <div class="logout">
+      <a routerLink="/logout">Logout</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

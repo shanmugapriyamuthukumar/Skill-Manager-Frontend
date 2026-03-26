@@ -20,6 +20,12 @@ interface Skill {
   category: string;
 }
 
+interface Employee {
+  id: number;
+  name: string;
+  email: string;
+}
+
 @Component({
   selector: 'app-view-projects',
   standalone: true,
@@ -34,8 +40,12 @@ export class ViewProjects implements OnInit {
   // form inputs
   newProjectName: string = '';
   selectedSkillId: number = 0;
-  requiredLevel: number = 1;
+  requiredLevel: number |null = null;
   newRequiredSkills: RequiredSkill[] = [];
+
+  // qualified employees
+  qualifiedEmployees: Employee[] = [];
+  selectedProjectId: number | null = null;
 
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
@@ -133,5 +143,20 @@ export class ViewProjects implements OnInit {
   getSkillName(skillId: number): string {
     const skill = this.skills.find(s => s.id === skillId);
     return skill ? skill.name : `Skill #${skillId}`;
+  }
+
+  // ✅ Check project for qualified employees
+  checkProject(id: number): void {
+    const token = localStorage.getItem('jwt');
+    this.http.get<Employee[]>(`http://localhost:9090/projects/${id}/qualified-employees`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: data => {
+        this.selectedProjectId = id;
+        this.qualifiedEmployees = data;
+        this.cd.detectChanges();
+      },
+      error: err => console.error('Error checking project:', err)
+    });
   }
 }

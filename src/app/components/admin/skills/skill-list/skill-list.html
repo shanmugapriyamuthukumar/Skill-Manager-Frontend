@@ -4,7 +4,18 @@
   <!-- Add Skill Form -->
   <div class="add-skill-form">
     <input type="text" [(ngModel)]="newSkillName" placeholder="Skill Name">
-    <input type="text" [(ngModel)]="newSkillCategory" placeholder="Category">
+
+    <!-- Dropdown for Category -->
+    <select [(ngModel)]="newSkillCategory">
+      <option value="">-- Select Category --</option>
+      <option value="Programming Language">Programming Language</option>
+      <option value="Frontend">Frontend</option>
+      <option value="Backend">Backend</option>
+      <option value="Database">Database</option>
+      <option value="Cloud & DevOps">Cloud & DevOps</option>
+      <option value="Big Data">Big Data</option>
+    </select>
+
     <button (click)="addSkill()">Add Skill</button>
   </div>
 
@@ -26,6 +37,9 @@
         <td>
           <button (click)="deleteSkill(skill.id)">Delete</button>
         </td>
+      </tr>
+      <tr *ngIf="skills.length === 0">
+        <td colspan="4" class="empty">No skills available</td>
       </tr>
     </tbody>
   </table>

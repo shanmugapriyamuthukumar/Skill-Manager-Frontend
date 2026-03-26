@@ -1,0 +1,20 @@
+<!-- admin-layout.component.html -->
+<div class="dashboard">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2 class="logo">Skill Manager</h2>
+    <div class="menu">
+      <p class="menu-title" routerLink="/admin/dashboard">Home</p>
+      <p class="menu-title" routerLink="/admin/skills">Skills</p>
+      <p class="menu-title" routerLink="/admin/view-projects">Projects</p>
+    </div>
+    <div class="logout">
+      <a routerLink="/">Logout</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

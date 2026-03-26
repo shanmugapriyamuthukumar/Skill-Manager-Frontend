@@ -34,8 +34,8 @@ export class EmployeeDashboardComponent implements OnInit {
 
   // Add Skill form inputs
   selectedSkillId: number = 0;
-  newProficiency: number = 1;
-  newExperience: number = 0;
+  newProficiency: number | null = null;
+  newExperience: number | null = null;
 
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
