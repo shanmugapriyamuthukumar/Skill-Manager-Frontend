@@ -23,7 +23,7 @@ interface EmployeeSkill {
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterLink, FormsModule],
+  imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './employee-dashboard.html',
   styleUrls: ['./employee-dashboard.css']
 })
