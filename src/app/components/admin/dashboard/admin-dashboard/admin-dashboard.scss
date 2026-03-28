@@ -1,24 +1,82 @@
-/* Header */
-.header {
-  margin-bottom: 25px;
+/* Common Card Style */
+.info-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease;
 }
 
-.header h1 {
-  font-size: 22px;
-  color: #333;
+.info-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Headings */
+.info-card h3 {
+  margin: 0 0 14px 0;
+  font-size: 16px;
   font-weight: 600;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.header p {
-  color: #777;
+/* Application Overview Text */
+.overview-text {
   font-size: 14px;
+  line-height: 1.7;
+  color: #555;
 }
 
-/* Main area */
-.main-content {
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  min-height: 400px;
+/* System Capabilities List */
+.capability-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.capability-list li {
+  font-size: 14px;
+  padding: 8px 0;
+  color: #444;
+  position: relative;
+  padding-left: 20px;
+}
+
+.capability-list li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #2e7d32;
+  font-size: 13px;
+}
+
+/* Environment / Build Info */
+.app-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.app-info div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 6px 0;
+  border-bottom: 1px dashed #e0e0e0;
+}
+
+.app-info div:last-child {
+  border-bottom: none;
+}
+
+.app-info strong {
+  color: #333;
+  font-weight: 500;
+}
+
+.app-info span {
+  color: #666;
 }
