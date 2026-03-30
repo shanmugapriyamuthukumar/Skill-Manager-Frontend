@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../../../services/toast.service'; // adjust path if needed
 
@@ -37,6 +36,10 @@ export class EmployeeDashboardComponent implements OnInit {
   selectedSkillId: number = 0;
   newProficiency: number | null = null;
   newExperience: number | null = null;
+
+  // Delete confirmation modal state
+  showDeleteConfirm: boolean = false;
+  skillToDelete: number | null = null;
 
   constructor(
     private http: HttpClient,
@@ -149,20 +152,37 @@ export class EmployeeDashboardComponent implements OnInit {
     });
   }
 
-  deleteSkill(skillId: number): void {
+  // Ask for delete confirmation
+  askDelete(skillId: number): void {
+    this.skillToDelete = skillId;
+    this.showDeleteConfirm = true;
+  }
+
+  // Confirm deletion
+  confirmDelete(): void {
+    if (!this.skillToDelete) return;
     const token = localStorage.getItem('jwt');
-    this.http.delete(`http://localhost:9090/employee/skills/${skillId}`, {
+    this.http.delete(`http://localhost:9090/employee/skills/delete/${this.skillToDelete}`, {
       headers: { Authorization: `Bearer ${token}` },
       responseType: 'text'
     }).subscribe({
       next: () => {
         this.toastService.show('Skill deleted successfully', 'success');
         this.loadEmployeeSkills();
+        this.cancelDelete();
       },
       error: (err) => {
         console.error(err);
         this.toastService.show("Skill couldn't be deleted", 'error');
+        this.cancelDelete();
       }
     });
+  }
+
+
+  // Cancel deletion
+  cancelDelete(): void {
+    this.showDeleteConfirm = false;
+    this.skillToDelete = null;
   }
 }

@@ -48,13 +48,14 @@ label {
 /* COMMON INPUT STYLE */
 input {
   width: 100%;
-  height: 45px;                 /* ✅ same height */
-  padding: 0 15px;              /* ✅ vertical center text */
+  height: 45px;
+  padding: 0 15px;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 14px;
   box-sizing: border-box;
 }
+
 /* PASSWORD FIELD */
 .password-field {
   position: relative;
@@ -73,11 +74,12 @@ input {
   position: absolute;
   right: 12px;
   top: 50%;
-  transform: translateY(-50%); /* ✅ THIS FIXES CENTER */
+  transform: translateY(-50%);
   cursor: pointer;
   color: #777;
   font-size: 16px;
 }
+
 /* ERROR */
 .error {
   border: 1px solid red;
@@ -140,4 +142,20 @@ input {
 
 @keyframes spin {
   100% { transform: rotate(360deg); }
+}
+
+/* ✅ Hide default browser password reveal/clear icons */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none;
+}
+
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button {
+  display: none;
 }

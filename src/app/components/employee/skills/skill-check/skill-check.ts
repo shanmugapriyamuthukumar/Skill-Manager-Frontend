@@ -77,4 +77,10 @@ export class SkillCheckComponent implements OnInit {
       }
     });
   }
+
+  closeExpanded(): void {
+    this.expandedProjectId = null;
+    this.matchingSkills = [];
+    this.missingSkills = [];
+  }
 }

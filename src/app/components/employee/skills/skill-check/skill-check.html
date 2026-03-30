@@ -25,32 +25,35 @@
           <!-- Expanded row -->
           <tr *ngIf="expandedProjectId === project.id">
             <td colspan="3">
-              <div class="skill-check-grid">
-                
-                <!-- Matching Skills -->
-                <div>
-                  <h4>Matching Skills</h4>
-                  <ul>
-                    <li *ngFor="let s of matchingSkills">
-                      <span class="badge badge-apt">{{ s.skillName }}</span>
-                      – Level {{ s.requiredLevel }}
-                    </li>
-                    <li *ngIf="matchingSkills.length === 0" class="empty">None</li>
-                  </ul>
-                </div>
+              <div class="skill-check-expanded">
+                <!-- Close button -->
+                <button class="close-btn" (click)="closeExpanded()">×</button>
 
-                <!-- Missing Skills -->
-                <div>
-                  <h4>Missing Skills</h4>
-                  <ul>
-                    <li *ngFor="let s of missingSkills">
-                      <span class="badge badge-missing">{{ s.skillName }}</span>
-                      – Level {{ s.requiredLevel }}
-                    </li>
-                    <li *ngIf="missingSkills.length === 0" class="empty">None</li>
-                  </ul>
-                </div>
+                <div class="skill-check-grid">
+                  <!-- Matching Skills -->
+                  <div>
+                    <h4>Matching Skills</h4>
+                    <ul>
+                      <li *ngFor="let s of matchingSkills">
+                        <span class="badge badge-apt">{{ s.skillName }}</span>
+                        – Level {{ s.requiredLevel }}
+                      </li>
+                      <li *ngIf="matchingSkills.length === 0" class="empty">None</li>
+                    </ul>
+                  </div>
 
+                  <!-- Missing Skills -->
+                  <div>
+                    <h4>Missing Skills</h4>
+                    <ul>
+                      <li *ngFor="let s of missingSkills">
+                        <span class="badge badge-missing">{{ s.skillName }}</span>
+                        – Level {{ s.requiredLevel }}
+                      </li>
+                      <li *ngIf="missingSkills.length === 0" class="empty">None</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>

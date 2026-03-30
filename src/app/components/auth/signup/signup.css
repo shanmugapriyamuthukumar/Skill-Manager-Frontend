@@ -23,7 +23,7 @@
 form {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* ✅ equal spacing */
+  gap: 12px;
 }
 
 /* LABEL */
@@ -32,7 +32,7 @@ label {
   margin-bottom: 3px;
 }
 
-/* INPUT (ALL SAME ALIGNMENT) */
+/* INPUT */
 input {
   width: 100%;
   height: 45px;
@@ -61,7 +61,7 @@ input:focus {
   padding-right: 40px; /* space for icon */
 }
 
-/* ICON CENTER PERFECT */
+/* ICON */
 .password-field i {
   position: absolute;
   right: 12px;
@@ -106,4 +106,17 @@ input:focus {
 .btn-link {
   color: #2f6fb2;
   text-decoration: none;
+}
+
+/* ✅ Hide default browser password reveal/clear icons */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button {
+  display: none !important;
 }
