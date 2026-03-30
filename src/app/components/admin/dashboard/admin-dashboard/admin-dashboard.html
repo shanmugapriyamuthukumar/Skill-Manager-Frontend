@@ -1,48 +1,23 @@
 <!-- Application Overview -->
-<div class="info-card">
-  <h3>📘 Application Overview</h3>
 
-  <p class="overview-text">
-    Skill Manager is an internal admin system designed to manage employee
-    skills, review and approve skill submissions, and align project skill
-    requirements efficiently. It helps administrators maintain accurate
-    skill data and ensure proper project resource allocation.
-  </p>
-</div>
-<!-- System Capabilities -->
-<div class="info-card">
-  <h3>⚙️ System Capabilities</h3>
 
-  <ul class="capability-list">
-       <li>Project Skill Mapping</li>    <li>Employee Skill Tracking</li>
-    <li>Role‑Based Access Control</li>
-  </ul>
-</div>
-    
-    <!-- Environment / Build Info -->
-<div class="info-card">
-  <h3>ℹ️ Environment & Build Information</h3>
+<!-- Dashboard Cards -->
+<div class="dashboard-cards">
+  <!-- Project Count Card -->
+  <div class="count-card" (click)="goToProjects()">
+    <h3>📂 Projects</h3>
+    <p class="count">{{ projectRequests.length }}</p>
+    <span class="card-subtext">Total Projects</span>
+  </div>
 
-  <div class="app-info">
-    <div>
-      <strong>Application Name:</strong>
-      <span>Skill Manager</span>
-    </div>
-
-    <div>
-      <strong>Version:</strong>
-      <span>v1.0.0</span>
-    </div>
-
-    <div>
-      <strong>Environment:</strong>
-      <span>Development</span>
-    </div>
-
-    <div>
-      <strong>Logged‑in Role:</strong>
-      <span>Admin</span>
-    </div>
+  <!-- Skill Count Card -->
+  <div class="count-card" (click)="goToSkills()">
+    <h3>🛠 Skills</h3>
+    <p class="count">{{ skillRequests.length }}</p>
+    <span class="card-subtext">Total Skills</span>
   </div>
 </div>
-    
+
+
+
+

@@ -1,0 +1,58 @@
+<div class="page">
+  <div class="card">
+    <h2>Project Qualification Report</h2>
+    <p class="sub-text">Shows employees qualified for each project</p>
+
+    <table class="project-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Project Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let project of projects">
+          <!-- Project row -->
+          <tr>
+            <td>{{ project.id }}</td>
+            <td>{{ project.projectName }}</td>
+            <td>
+              <button class="check-btn" (click)="checkProject(project)">Check</button>
+            </td>
+          </tr>
+
+          <!-- Expanded row -->
+          <tr *ngIf="expandedProjectId === project.id">
+            <td colspan="3">
+              <div class="qualified-grid">
+                <!-- Close button -->
+                <button class="close-btn" (click)="closeCheck()">×</button>
+
+                <h4>Qualified Employees</h4>
+
+                <!-- Loading indicator -->
+                <div *ngIf="loading" class="loading">Fetching qualified employees...</div>
+
+                <!-- Qualified employees list -->
+                <ul *ngIf="!loading">
+                  <li *ngFor="let emp of qualifiedEmployees">
+                    <span class="badge badge-match">{{ emp.name }}</span>
+                  </li>
+                  <li *ngIf="qualifiedEmployees.length === 0" class="empty">
+                    No qualified employees
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- Empty state -->
+        <tr *ngIf="projects.length === 0">
+          <td colspan="3" class="empty">No projects available</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

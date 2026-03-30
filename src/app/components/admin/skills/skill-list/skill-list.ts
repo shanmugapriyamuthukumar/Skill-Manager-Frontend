@@ -24,6 +24,9 @@ export class SkillList implements OnInit {
   newSkillName: string = '';
   newSkillCategory: string = '';
 
+  // delete confirmation
+  confirmDeleteId: number | null = null;
+
   constructor(
     private http: HttpClient,
     private cd: ChangeDetectorRef,
@@ -63,11 +66,11 @@ export class SkillList implements OnInit {
       headers: { Authorization: `Bearer ${token}` },
       responseType: 'text'
     }).subscribe({
-      next: (resp) => {
+      next: () => {
         this.toastService.show('Skill added successfully', 'success');
         this.newSkillName = '';
         this.newSkillCategory = '';
-        this.loadSkills(); // refresh list
+        this.loadSkills();
       },
       error: (err) => {
         console.error(err);
@@ -76,20 +79,34 @@ export class SkillList implements OnInit {
     });
   }
 
-  deleteSkill(id: number): void {
-    const token = localStorage.getItem('jwt');
-    this.http.delete(`http://localhost:9090/skills/delete/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-      responseType: 'text'
-    }).subscribe({
-      next: (resp) => {
-        this.toastService.show('Skill deleted successfully', 'success');
-        this.loadSkills(); // refresh list
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastService.show("Skill doesn't exist", 'error');
-      }
-    });
+  openDeleteConfirm(id: number): void {
+	this.cd.detectChanges();
+    this.confirmDeleteId = id;
+  }
+
+  closeDeleteConfirm(): void {
+	this.cd.detectChanges();
+    this.confirmDeleteId = null;
+  }
+
+  performDelete(): void {
+    if (this.confirmDeleteId !== null) {
+      const token = localStorage.getItem('jwt');
+      this.http.delete(`http://localhost:9090/skills/delete/${this.confirmDeleteId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'text'
+      }).subscribe({
+        next: () => {
+          this.toastService.show('Skill deleted successfully', 'success');
+          this.skills = this.skills.filter(s => s.id !== this.confirmDeleteId);
+          this.confirmDeleteId = null;
+          this.cd.detectChanges();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.show("Skill doesn't exist", 'error');
+        }
+      });
+    }
   }
 }

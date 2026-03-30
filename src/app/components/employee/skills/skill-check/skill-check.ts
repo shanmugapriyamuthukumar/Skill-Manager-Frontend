@@ -20,21 +20,6 @@ interface EmployeeSkill {
   proficiencyLevel: number;
 }
 
-interface AptSkill {
-  skillId: number;
-  skillName: string;
-  requiredLevel: number;
-  current: number;
-}
-
-interface GapSkill {
-  skillId: number;
-  skillName: string;
-  requiredLevel: number;
-  current: number;
-  gap: number;
-}
-
 @Component({
   selector: 'app-skill-check',
   standalone: true,
@@ -47,9 +32,8 @@ export class SkillCheckComponent implements OnInit {
   employeeSkills: EmployeeSkill[] = [];
   expandedProjectId: number | null = null;
 
+  matchingSkills: ProjectSkill[] = [];
   missingSkills: ProjectSkill[] = [];
-  aptSkills: AptSkill[] = [];
-  gapSkills: GapSkill[] = [];
 
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
@@ -80,30 +64,16 @@ export class SkillCheckComponent implements OnInit {
 
   checkProject(project: Project): void {
     this.expandedProjectId = project.id;
+    this.matchingSkills = [];
     this.missingSkills = [];
-    this.aptSkills = [];
-    this.gapSkills = [];
 
     project.requiredSkills.forEach(req => {
       const empSkill = this.employeeSkills.find(s => s.skillId === req.skillId);
 
-      if (!empSkill) {
-        this.missingSkills.push(req);
-      } else if (empSkill.proficiencyLevel >= req.requiredLevel) {
-        this.aptSkills.push({
-          skillId: req.skillId,
-          skillName: req.skillName,
-          requiredLevel: req.requiredLevel,
-          current: empSkill.proficiencyLevel
-        });
+      if (empSkill) {
+        this.matchingSkills.push(req);
       } else {
-        this.gapSkills.push({
-          skillId: req.skillId,
-          skillName: req.skillName,
-          requiredLevel: req.requiredLevel,
-          current: empSkill.proficiencyLevel,
-          gap: req.requiredLevel - empSkill.proficiencyLevel
-        });
+        this.missingSkills.push(req);
       }
     });
   }

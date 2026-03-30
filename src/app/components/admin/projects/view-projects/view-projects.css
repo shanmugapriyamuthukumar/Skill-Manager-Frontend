@@ -15,11 +15,13 @@
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  position: relative;
 }
 
 /* TITLE */
 .card h2 {
   margin-bottom: 5px;
+  display: inline-block;
 }
 
 .sub-text {
@@ -28,35 +30,26 @@
   margin-bottom: 20px;
 }
 
-/* ADD PROJECT FORM */
-.add-project-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+/* ADD PROJECT BUTTON aligned right with heading */
+.add-project-btn-container {
+  position: absolute;
+  top: 55px;   /* slightly lower for better alignment */
+  right: 25px;
 }
 
-.add-project-form input,
-.add-project-form select {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.add-project-form button {
+.add-btn {
   background: #2f6fb2;
   color: white;
   border: none;
-  padding: 10px 16px;
+  padding: 10px 18px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
   transition: background 0.2s ease;
 }
 
-.add-project-form button:hover {
+.add-btn:hover {
   background: #255a8f;
 }
 
@@ -82,28 +75,11 @@
   vertical-align: top;
 }
 
-/* HOVER */
 .project-table tbody tr:hover {
   background: #f5f8fc;
 }
 
-/* ACTION BUTTONS */
-.check-btn {
-  background: #3a7afe;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  margin-right: 6px;
-  transition: background 0.2s ease;
-}
-
-.check-btn:hover {
-  background: #2f5ed0;
-}
-
+/* DELETE BUTTON */
 .delete-btn {
   background: #e74c3c;
   color: white;
@@ -126,40 +102,417 @@
   padding: 20px;
 }
 
-/* QUALIFIED EMPLOYEES TABLE */
-.employee-table {
+/* MODAL OVERLAY */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.employee-table th {
+/* MODAL CONTENT */
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 520px;
+  max-width: 90%;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+/* MODAL TITLE */
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #2f6fb2;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* Project Name input spacing */
+.modal-content input[type="text"] {
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+/* SKILL ROW (skill + proficiency + plus button aligned) */
+.skill-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.skill-row select,
+.skill-row input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+.add-skill-btn {
   background: #3a7afe;
   color: white;
-  padding: 8px;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background 0.2s ease;
+  height: 100%;
+}
+
+.add-skill-btn:hover {
+  background: #2f5ed0;
+}
+
+/* LIST OF ADDED SKILLS */
+.modal-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 10px 0 20px;
+}
+
+.modal-content ul li {
+  background: #eef3fb;
+  border-left: 4px solid #2f6fb2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* MODAL ACTIONS (Save / Cancel) */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease;
+  font-weight: 500;
+}
+
+/* SAVE BUTTON */
+.modal-actions button:not(.cancel-btn) {
+  background: #2f6fb2;
+  color: white;
+}
+
+.modal-actions button:not(.cancel-btn):hover {
+  background: #255a8f;
+}
+
+/* CANCEL BUTTON */
+.cancel-btn {
+  background: #ccc;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #aaa;
+  color: white;
+}
+
+/* CONFIRMATION MODAL */
+.confirm-modal h3 {
+  color: #e74c3c;
+}
+
+.confirm-modal p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+/* PAGE */
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 40px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* CARD */
+.card {
+  width: 900px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+/* TITLE */
+.card h2 {
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.sub-text {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* ADD PROJECT BUTTON aligned right with heading */
+.add-project-btn-container {
+  position: absolute;
+  top: 55px;   /* slightly lower for better alignment */
+  right: 25px;
+}
+
+.add-btn {
+  background: #2f6fb2;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #255a8f;
+}
+
+/* PROJECTS TABLE */
+.project-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.project-table th {
+  background: #2f6fb2;
+  color: white;
+  padding: 12px;
   text-align: left;
   font-size: 14px;
 }
 
-.employee-table td {
-  padding: 8px;
+.project-table td {
+  padding: 12px;
   border-bottom: 1px solid #eee;
   font-size: 14px;
+  vertical-align: top;
 }
 
-.employee-table tbody tr:hover {
+.project-table tbody tr:hover {
   background: #f5f8fc;
 }
 
-/* SECTION TITLE */
-h4 {
-  margin-top: 10px;
-  font-size: 16px;
-  color: #333;
-  font-weight: 600;
+/* DELETE BUTTON */
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s ease;
 }
-.add-project-form button[disabled] {
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+
+/* EMPTY STATE */
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+/* MODAL OVERLAY */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* MODAL CONTENT */
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 520px;
+  max-width: 90%;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+/* MODAL TITLE */
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #2f6fb2;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* Project Name input spacing */
+.modal-content input[type="text"] {
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+/* SKILL ROW (skill + proficiency + plus button aligned) */
+.skill-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.skill-row select,
+.skill-row input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+.add-skill-btn {
+  background: #3a7afe;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background 0.2s ease;
+  height: 100%;
+}
+
+.add-skill-btn:hover {
+  background: #2f5ed0;
+}
+
+/* LIST OF ADDED SKILLS */
+.modal-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 10px 0 20px;
+}
+
+.modal-content ul li {
+  background: #eef3fb;
+  border-left: 4px solid #2f6fb2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* MODAL ACTIONS (Save / Cancel) */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease;
+  font-weight: 500;
+}
+
+/* SAVE BUTTON */
+.modal-actions button:not(.cancel-btn) {
+  background: #2f6fb2;
+  color: white;
+}
+
+.modal-actions button:not(.cancel-btn):hover {
+  background: #255a8f;
+}
+
+/* CANCEL BUTTON */
+.cancel-btn {
   background: #ccc;
-  cursor: not-allowed;
-  color: #666;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #aaa;
+  color: white;
+}
+
+/* CONFIRMATION MODAL */
+.confirm-modal h3 {
+  color: #e74c3c;
+}
+
+.confirm-modal p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }

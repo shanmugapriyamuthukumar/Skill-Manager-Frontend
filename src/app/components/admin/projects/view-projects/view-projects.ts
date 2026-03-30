@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ToastService } from '../../../../services/toast.service'; // adjust path if needed
+import { ToastService } from '../../../../services/toast.service';
 
 interface RequiredSkill {
   skillId: number;
@@ -21,12 +21,6 @@ interface Skill {
   category: string;
 }
 
-interface Employee {
-  id: number;
-  name: string;
-  email: string;
-}
-
 @Component({
   selector: 'app-view-projects',
   standalone: true,
@@ -38,15 +32,13 @@ export class ViewProjects implements OnInit {
   projects: Project[] = [];
   skills: Skill[] = [];
 
-  // form inputs
   newProjectName: string = '';
   selectedSkillId: number = 0;
   requiredLevel: number | null = null;
   newRequiredSkills: RequiredSkill[] = [];
 
-  // qualified employees
-  qualifiedEmployees: Employee[] = [];
-  selectedProjectId: number | null = null;
+  showAddProjectModal: boolean = false;
+  confirmDeleteId: number | null = null;
 
   constructor(
     private http: HttpClient,
@@ -59,6 +51,7 @@ export class ViewProjects implements OnInit {
     this.loadSkills();
   }
 
+  // ===== Load Projects =====
   loadProjects(): void {
     const token = localStorage.getItem('jwt');
     this.http.get<Project[]>('http://localhost:9090/projects/all', {
@@ -68,13 +61,11 @@ export class ViewProjects implements OnInit {
         this.projects = data;
         this.cd.detectChanges();
       },
-      error: err => {
-        console.error('Error loading projects:', err);
-        this.toastService.show('Error loading projects', 'error');
-      }
+      error: () => this.toastService.show('Error loading projects', 'error')
     });
   }
 
+  // ===== Load Skills =====
   loadSkills(): void {
     const token = localStorage.getItem('jwt');
     this.http.get<Skill[]>('http://localhost:9090/skills/all', {
@@ -84,20 +75,31 @@ export class ViewProjects implements OnInit {
         this.skills = data;
         this.cd.detectChanges();
       },
-      error: err => {
-        console.error('Error loading skills:', err);
-        this.toastService.show('Error loading skills', 'error');
-      }
+      error: () => this.toastService.show('Error loading skills', 'error')
     });
   }
 
+  // ===== Modal Controls =====
+  openAddProjectModal(): void {
+    this.showAddProjectModal = true;
+    this.cd.detectChanges();
+  }
+
+  closeAddProjectModal(): void {
+    this.showAddProjectModal = false;
+    this.newProjectName = '';
+    this.newRequiredSkills = [];
+    this.selectedSkillId = 0;
+    this.requiredLevel = null;
+    this.cd.detectChanges(); // ✅ ensures modal closes immediately
+  }
+
+  // ===== Add Skill to Project =====
   addSkillToProject(): void {
     if (!this.selectedSkillId || !this.requiredLevel) {
       this.toastService.show('Please select a skill and level', 'error');
       return;
     }
-
-    // ✅ Validate proficiency range
     if (this.requiredLevel < 1 || this.requiredLevel > 5) {
       this.toastService.show('Proficiency must be between 1 and 5', 'error');
       return;
@@ -109,11 +111,11 @@ export class ViewProjects implements OnInit {
     });
 
     this.selectedSkillId = 0;
-    this.requiredLevel = 1;
-    this.toastService.show('Skill added to project requirements', 'success');
+    this.requiredLevel = null;
+    this.cd.detectChanges();
   }
 
-
+  // ===== Add Project =====
   addProject(): void {
     if (!this.newProjectName || this.newRequiredSkills.length === 0) {
       this.toastService.show('Please enter project name and at least one required skill', 'error');
@@ -126,24 +128,40 @@ export class ViewProjects implements OnInit {
       requiredSkills: this.newRequiredSkills
     };
 
-    this.http.post('http://localhost:9090/projects/add', payload, {
-      headers: { Authorization: `Bearer ${token}` },
-      responseType: 'text'
+    this.http.post<Project>('http://localhost:9090/projects/add', payload, {
+      headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
-      next: () => {
+      next: (newProject) => {
         this.toastService.show('Project added successfully', 'success');
-        this.newProjectName = '';
-        this.newRequiredSkills = [];
-        this.loadProjects(); // refresh list
+        this.projects.push(newProject);
+        this.cd.detectChanges();
+        this.closeAddProjectModal(); // ✅ closes modal immediately
       },
       error: (err) => {
-        console.error(err);
         this.toastService.show(err.error?.error || 'Error adding project', 'error');
       }
     });
   }
 
-  deleteProject(id: number): void {
+  // ===== Delete Confirmation =====
+  openDeleteConfirm(id: number): void {
+    this.confirmDeleteId = id;
+    this.cd.detectChanges();
+  }
+
+  closeDeleteConfirm(): void {
+    this.confirmDeleteId = null;
+    this.cd.detectChanges();
+  }
+
+  performDelete(): void {
+    if (this.confirmDeleteId !== null) {
+      this.deleteProject(this.confirmDeleteId);
+      this.confirmDeleteId = null;
+    }
+  }
+
+  private deleteProject(id: number): void {
     const token = localStorage.getItem('jwt');
     this.http.delete(`http://localhost:9090/projects/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -151,37 +169,16 @@ export class ViewProjects implements OnInit {
     }).subscribe({
       next: () => {
         this.toastService.show('Project deleted successfully', 'success');
-        this.loadProjects(); // refresh list
+        this.projects = this.projects.filter(p => p.id !== id);
+        this.cd.detectChanges();
       },
-      error: (err) => {
-        console.error(err);
-        this.toastService.show("Project doesn't exist", 'error');
-      }
+      error: () => this.toastService.show("Project doesn't exist", 'error')
     });
   }
 
-  // ✅ Helper to get skill name by ID
+  // ===== Helper =====
   getSkillName(skillId: number): string {
     const skill = this.skills.find(s => s.id === skillId);
     return skill ? skill.name : `Skill #${skillId}`;
-  }
-
-  // ✅ Check project for qualified employees
-  checkProject(id: number): void {
-    const token = localStorage.getItem('jwt');
-    this.http.get<Employee[]>(`http://localhost:9090/projects/${id}/qualified-employees`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
-      next: data => {
-        this.selectedProjectId = id;
-        this.qualifiedEmployees = data;
-        this.cd.detectChanges();
-        this.toastService.show('Qualified employees loaded', 'success');
-      },
-      error: err => {
-        console.error('Error checking project:', err);
-        this.toastService.show('Error checking project', 'error');
-      }
-    });
   }
 }

@@ -9,6 +9,7 @@ import { SkillList } from './components/admin/skills/skill-list/skill-list';
 import { DeleteSkillComponent } from './components/admin/skills/delete-skill/delete-skill.component';
 import { AdminDashboardComponent } from './components/admin/dashboard/admin-dashboard/admin-dashboard';
 import { AddSkillComponent } from './components/admin/skills/add-skill/add-skill.component';
+import { ReportComponent } from './components/admin/reports/report/report';
 
 import { EmployeeDashboardComponent } from './components/employee/dashboard/employee-dashboard/employee-dashboard';
 import { SkillCheckComponent } from './components/employee/skills/skill-check/skill-check';
@@ -30,7 +31,8 @@ export const routes: Routes = [
       { path: 'add-skill', component: AddSkillComponent },
       { path: 'skills', component: SkillList },
       { path: 'delete-skill', component: DeleteSkillComponent },
-      { path: 'view-projects', component: ViewProjects }
+      { path: 'view-projects', component: ViewProjects },
+	  { path: 'report', component: ReportComponent }
     ]
   },
 

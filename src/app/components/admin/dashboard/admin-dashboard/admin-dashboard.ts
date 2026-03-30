@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -6,7 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-dashboard.scss']
 })
 export class AdminDashboardComponent {
-
   skillRequests = [
     { skill: 'Angular', count: 4 },
     { skill: 'Spring Boot', count: 3 },
@@ -18,4 +18,13 @@ export class AdminDashboardComponent {
     { project: 'Project Nova', skill: 'SQL Expert' }
   ];
 
+  constructor(private router: Router) {}
+
+  goToProjects(): void {
+    this.router.navigate(['/admin/view-projects']); // adjust route path to your projects tab
+  }
+
+  goToSkills(): void {
+    this.router.navigate(['/admin/skills']); // adjust route path to your skills tab
+  }
 }
