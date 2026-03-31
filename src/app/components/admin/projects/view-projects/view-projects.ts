@@ -31,6 +31,7 @@ interface Skill {
 export class ViewProjects implements OnInit {
   projects: Project[] = [];
   skills: Skill[] = [];
+  private skillMap: Record<number, string> = {}; // ✅ fast lookup
 
   newProjectName: string = '';
   selectedSkillId: number = 0;
@@ -73,6 +74,8 @@ export class ViewProjects implements OnInit {
     }).subscribe({
       next: data => {
         this.skills = data;
+        // ✅ build skillMap for quick lookups
+        this.skillMap = Object.fromEntries(data.map(s => [s.id, s.name]));
         this.cd.detectChanges();
       },
       error: () => this.toastService.show('Error loading skills', 'error')
@@ -91,7 +94,7 @@ export class ViewProjects implements OnInit {
     this.newRequiredSkills = [];
     this.selectedSkillId = 0;
     this.requiredLevel = null;
-    this.cd.detectChanges(); // ✅ ensures modal closes immediately
+    this.cd.detectChanges();
   }
 
   // ===== Add Skill to Project =====
@@ -135,7 +138,7 @@ export class ViewProjects implements OnInit {
         this.toastService.show('Project added successfully', 'success');
         this.projects.push(newProject);
         this.cd.detectChanges();
-        this.closeAddProjectModal(); // ✅ closes modal immediately
+        this.closeAddProjectModal();
       },
       error: (err) => {
         this.toastService.show(err.error?.error || 'Error adding project', 'error');
@@ -178,7 +181,6 @@ export class ViewProjects implements OnInit {
 
   // ===== Helper =====
   getSkillName(skillId: number): string {
-    const skill = this.skills.find(s => s.id === skillId);
-    return skill ? skill.name : `Skill #${skillId}`;
+    return this.skillMap[skillId] || `Skill #${skillId}`;
   }
 }
